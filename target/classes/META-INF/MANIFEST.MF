@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Implementation-Title: watchmoreonline
+Implementation-Title: WatchMoreOnline
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: Dovahkiin
 Implementation-Vendor-Id: com.watchmoreonline

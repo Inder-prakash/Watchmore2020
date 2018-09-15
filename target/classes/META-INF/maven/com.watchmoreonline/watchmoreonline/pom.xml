@@ -3,6 +3,7 @@
   <groupId>com.watchmoreonline</groupId>
   <artifactId>watchmoreonline</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <name>WatchMoreOnline</name>
   
   <properties>
         <start-class>com.watchmoreonline.Main</start-class>
@@ -32,5 +33,15 @@
 	
 	    	
 </dependencies>
+	 <build> 
 
+    <finalName>watchmoreonline</finalName>
+        <plugins>
+            <!-- Package as an executable jar/war -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins> 
+  </build>
 </project>

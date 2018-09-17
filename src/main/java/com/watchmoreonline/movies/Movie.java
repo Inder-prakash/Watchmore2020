@@ -28,7 +28,7 @@ public class Movie {
 	private String size720p;
 	private String size1080p;
 	private String size4k;
-
+	private String Language;
 	
 	public String getId() {
 		return id;
@@ -218,6 +218,16 @@ public class Movie {
 
 	public void setSize4k(String size4k) {
 		this.size4k = size4k;
+	}
+
+
+	public String getLanguage() {
+		return Language;
+	}
+
+
+	public void setLanguage(String language) {
+		Language = language;
 	}
 
 

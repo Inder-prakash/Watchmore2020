@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.watchmoreonline.movies.Movie;
 import com.watchmoreonline.movies.MovieDao;
+import com.watchmoreonline.users.User;
+import com.watchmoreonline.users.UserDao;
 
 @org.springframework.web.bind.annotation.RestController
 public class MovieController {
@@ -18,7 +20,35 @@ public class MovieController {
 	@Autowired
 	MovieDao mov;
 	
-	@PostMapping
+	@Autowired
+	UserDao udao;
+	
+	@PostMapping("/login")
+	public String login(@RequestBody String data) {
+		
+		JSONObject json = new JSONObject();	
+		try
+		{
+			JSONParser jp = new JSONParser();		
+			JSONObject joObject = (JSONObject)jp.parse(data);
+			User u = new User();	
+			u.setEmail(joObject.get("Email").toString());
+			u = udao.find(u);	
+			if( u != null && u.getPassword().equals( joObject.get("Password").toString() ) )
+			{	
+				json.put("msg", "Success");
+			}
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+			json.put("msg", "Failure");
+		}
+		return json.toJSONString();
+
+	}
+	
+	@PostMapping("/AddMovie")
 	public String addmovie(@RequestBody String data) throws ParseException {
 		JSONParser jp = new JSONParser();		
 		JSONObject json = new JSONObject();	
@@ -42,6 +72,7 @@ public class MovieController {
 			m.setSize720p(joObject.get("Size720p").toString());
 			m.setSize1080p(joObject.get("Size1080p").toString());
 			m.setSize4k(joObject.get("Size4k").toString());
+			m.setLanguage(joObject.get("Language").toString());
 			mov.insert(m);
 			json.put("msg","Data Saved");
 			return json.toJSONString();	
@@ -71,6 +102,7 @@ public class MovieController {
 				job.put("Size720p",m.getSize720p());
 				job.put("Size1080p",m.getSize1080p());
 				job.put("Size4k",m.getSize4k());
+				job.put("Language",m.getLanguage());
 				jarr.add(job);
 			}	 	
 			return jarr;

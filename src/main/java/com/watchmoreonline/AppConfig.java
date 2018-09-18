@@ -16,7 +16,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	            public void addCorsMappings(CorsRegistry registry) {
 	            	System.out.println("CORS ENABLED");
 //	                registry.addMapping("/**").allowedOrigins("*");
-	            	registry.addMapping("/**").allowedOrigins("https://watchmore.herokuapp.com");
+	            	registry.addMapping("/**").allowedOrigins("https://watch-itv.firebaseapp.com/");
 	            }
 	        };
 	    }

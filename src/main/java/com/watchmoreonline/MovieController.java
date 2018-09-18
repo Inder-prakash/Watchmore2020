@@ -176,13 +176,44 @@ public class MovieController {
 		return jarr;
 	}
 	
+	@PostMapping("/UpdateMovie")
+	public String UpdateMovie(@RequestBody String data) throws ParseException {	
+		JSONObject json = new JSONObject();	
+		JSONParser jp = new JSONParser();		
+		JSONObject joObject = (JSONObject)jp.parse(data);
+		Movie m = mov.find(joObject.get("Id").toString());
+		m.setName(joObject.get("Name").toString());
+		m.setImage(joObject.get("Image").toString());
+		m.setDirectlink480p(joObject.get("Directlink480p").toString());
+		m.setDirectlink720p(joObject.get("Directlink720p").toString());
+		m.setDirectlink1080p(joObject.get("Directlink1080p").toString());
+		m.setDirectlink4k(joObject.get("Directlink4k").toString());
+		m.setPlay480p(joObject.get("Play480p").toString());
+		m.setPlay720p(joObject.get("Play720p").toString());
+		m.setPlay1080p(joObject.get("Play1080p").toString());
+		m.setPlay4k(joObject.get("Play4k").toString());
+		m.setDownload480p(joObject.get("Download480p").toString());
+		m.setDownload720p(joObject.get("Download720p").toString());
+		m.setDownload1080p(joObject.get("Download1080p").toString());
+		m.setDownload4k(joObject.get("Download4k").toString());
+		m.setSize480p(joObject.get("Size480p").toString());
+		m.setSize720p(joObject.get("Size720p").toString());
+		m.setSize1080p(joObject.get("Size1080p").toString());
+		m.setSize4k(joObject.get("Size4k").toString());
+		m.setLanguage(joObject.get("Language").toString());
+		m.setStatus(joObject.get("Status").toString());
+		mov.update(m);
+		json.put("msg","Data Update");
+		return json.toJSONString();		
+	}
+	
+	
 	@PostMapping("/DeleteMovie")
 	public  String DeleteMovie(@RequestBody String data) throws ParseException {	
 		JSONObject json = new JSONObject();	
 		JSONParser jp = new JSONParser();		
 		JSONObject joObject = (JSONObject)jp.parse(data);
 		Movie m = mov.find(joObject.get("Id").toString());
-		System.out.println(m.getName());
 		mov.delete(m);
 		json.put("msg","Data Deleted");
 		return json.toJSONString();

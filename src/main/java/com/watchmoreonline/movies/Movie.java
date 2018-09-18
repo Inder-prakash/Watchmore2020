@@ -29,6 +29,7 @@ public class Movie {
 	private String size1080p;
 	private String size4k;
 	private String Language;
+	private String Status;
 	
 	public String getId() {
 		return id;
@@ -229,7 +230,15 @@ public class Movie {
 	public void setLanguage(String language) {
 		Language = language;
 	}
+	
+	public String getStatus() {
+		return Status;
+	}
 
+
+	public void setStatus(String status) {
+		Status = status;
+	}
 
 	public Movie() {
 		super();

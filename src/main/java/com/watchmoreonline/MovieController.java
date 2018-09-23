@@ -79,6 +79,38 @@ public class MovieController {
 			return json.toJSONString();	
 	}
 	
+	@PostMapping("/getmovie") 
+	public JSONArray getmovie(@RequestBody String data) throws ParseException {	
+		JSONArray jarr = new JSONArray();
+		JSONObject job = new JSONObject();	
+		JSONParser jp = new JSONParser();		
+		Movie m = mov.find(data);
+		job.put("Id",m.getId());		
+		job.put("Name",m.getName());
+		job.put("Image",m.getImage());
+		job.put("Directlink480p",m.getDirectlink480p());
+		job.put("Directlink720p",m.getDirectlink720p());
+		job.put("Directlink1080p",m.getDirectlink1080p());
+		job.put("Directlink4k",m.getDirectlink4k());
+		job.put("Play480p",m.getPlay480p());
+		job.put("Play720p",m.getPlay720p());
+		job.put("Play1080p",m.getPlay1080p());
+		job.put("Play4k",m.getPlay4k());
+		job.put("Download480p",m.getDownload480p());
+		job.put("Download720p",m.getDownload720p());
+		job.put("Download1080p",m.getDownload1080p());
+		job.put("Download4k",m.getDownload4k());
+		job.put("Size480p",m.getSize480p());
+		job.put("Size720p",m.getSize720p());
+		job.put("Size1080p",m.getSize1080p());
+		job.put("Size4k",m.getSize4k());
+		job.put("Language",m.getLanguage());
+		job.put("Status",m.getStatus());
+		jarr.add(job);
+		return jarr;
+		
+	}
+	
 	@GetMapping("/ViewMovies")
 	public JSONArray ViewMovies() {	
 		JSONArray jarr = new JSONArray();

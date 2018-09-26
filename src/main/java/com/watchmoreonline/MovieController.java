@@ -107,6 +107,23 @@ public class MovieController {
 //				m.setImage(image.get(i));
 //				m.setLanguage("Hindi");
 //				m.setStatus("Public");
+//				
+//				m.setDirectlink480p("");
+//				m.setDirectlink720p("");
+//	
+//				m.setDirectlink4k("");
+//				m.setPlay480p("");
+//				m.setPlay720p("");
+//		
+//				m.setPlay4k("");
+//				m.setDownload480p("");
+//				m.setDownload720p("");
+//	
+//				m.setDownload4k("");
+//				m.setSize480p("");
+//				m.setSize720p("");
+//
+//				m.setSize4k("");
 //				mov.insert(m);
 //			}
 //			
@@ -117,7 +134,7 @@ public class MovieController {
 //			e.printStackTrace();
 //		}
 //	}
-	
+//	
 	
 	
 	@PostMapping("/login")
@@ -405,6 +422,19 @@ public class MovieController {
 		return json.toJSONString();		
 	}
 	
+	
+	@PostMapping("/deleteselected")
+	public  String deleteselected(@RequestBody String[] data) throws ParseException {	
+		JSONObject json = new JSONObject();	
+		
+		for(String d:data) {
+			Movie m = mov.find(d);
+			mov.delete(m);
+		}
+		
+		json.put("msg","Data Deleted");
+		return json.toJSONString();
+	}
 	
 	@PostMapping("/DeleteMovie")
 	public  String DeleteMovie(@RequestBody String data) throws ParseException {	

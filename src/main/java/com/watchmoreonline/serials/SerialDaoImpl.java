@@ -1,4 +1,4 @@
-package com.watchmoreonline.tvseries;
+package com.watchmoreonline.serials;
 
 import java.util.List;
 
@@ -6,33 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.watchmoreonline.movies.Movie;
+
 @Repository("SerialDao")
 public class SerialDaoImpl implements SerialDao {
 
 	@Autowired
 	MongoTemplate mongoTemplate;
 	
-	final String COLLECTION = "tvseries";
+	final String COLLECTION = "serials";
 
-	public void insert(Serial s) {
-		mongoTemplate.insert(s);
+	public void insert(Serial m) {
+		mongoTemplate.insert(m);
 	}
 
-	public void update(Serial s) {
-		mongoTemplate.save(s);
+	public void update(Serial m) {
+		mongoTemplate.save(m);
 	}
 
-	public void delete(Serial s) {
-		mongoTemplate.remove(s);
+	public void delete(Serial m) {
+		mongoTemplate.remove(m);
 	}
 
 	public Serial find(String id) {
-		Serial s = mongoTemplate.findById(id, Serial.class, COLLECTION);
-		return s;	
+		Serial m = mongoTemplate.findById(id, Serial.class, COLLECTION);
+		return m;	
 	}
 
 	public List<Serial> findAll() {
 		return (List <Serial> ) mongoTemplate.findAll(Serial.class);
 	}
-	
 }

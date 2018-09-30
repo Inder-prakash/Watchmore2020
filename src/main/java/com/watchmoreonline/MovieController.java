@@ -221,8 +221,7 @@ public class MovieController {
 		job.put("Language",m.getLanguage());
 		job.put("Status",m.getStatus());
 		jarr.add(job);
-		return jarr;
-		
+		return jarr;	
 	}
 	
 	@GetMapping("/ViewMovies")

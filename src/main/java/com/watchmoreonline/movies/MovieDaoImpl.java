@@ -1,11 +1,9 @@
 package com.watchmoreonline.movies;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-
 
 @Repository("MovieDao")
 public class MovieDaoImpl implements MovieDao {

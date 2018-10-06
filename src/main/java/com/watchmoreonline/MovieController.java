@@ -33,108 +33,109 @@ public class MovieController {
 	@Autowired
 	UserDao udao;
 	
-//	@GetMapping("/ml")
-//	public void ml() {
-//		try {
-//			
-//			File file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\embed.txt");
-//			FileReader fileReader = new FileReader(file);
-//			BufferedReader bufferedReader = new BufferedReader(fileReader);
-//			String line;
-//			List<String> embed = new  ArrayList<String>();
-//			while ((line = bufferedReader.readLine()) != null) {
-//				embed.add(line);
-//			}
-//			fileReader.close();			
-//			Collections.reverse(embed); 
-//
-//			
-//			
-//			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\directlink.txt");
-//		    fileReader = new FileReader(file);
-//			bufferedReader = new BufferedReader(fileReader);
-//			List<String> directlink = new  ArrayList<String>();
-//			while ((line = bufferedReader.readLine()) != null) {
-//				directlink.add(line);
-//			}
-//			fileReader.close();		
-//			Collections.reverse(directlink); 
-//					
-//			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\size.txt");
-//		    fileReader = new FileReader(file);
-//			bufferedReader = new BufferedReader(fileReader);
-//			List<String> size = new  ArrayList<String>();
-//			while ((line = bufferedReader.readLine()) != null) {
-//				size.add(line);
-//			}
-//			fileReader.close();	
-//			Collections.reverse(size); 
-//			
-//			
-//			
-//			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\name.txt");
-//		    fileReader = new FileReader(file);
-//			bufferedReader = new BufferedReader(fileReader);
-//			List<String> name = new  ArrayList<String>();
-//			while ((line = bufferedReader.readLine()) != null) {
-//				name.add(line);
-//			}
-//			fileReader.close();	
-//			Collections.reverse(name); 
-//			
-//			
-//			
-//			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\Image.txt");
-//		    fileReader = new FileReader(file);
-//			bufferedReader = new BufferedReader(fileReader);
-//			List<String> image = new  ArrayList<String>();
-//			while ((line = bufferedReader.readLine()) != null) {
-//				image.add(line);
-//			}
-//			fileReader.close();	
-//			Collections.reverse(image); 
-//			
-//			
-//			Movie m = new Movie();			
-//			for(int i=0; i<embed.size(); i++) {
-//
-//				m = new Movie();
-//				m.setDirectlink1080p("OpenLoad");
-//				m.setPlay1080p(embed.get(i));
-//				m.setDownload1080p(directlink.get(i));
-//				m.setSize1080p(size.get(i));
-//				m.setName(name.get(i));
-//				m.setImage(image.get(i));
-//				m.setLanguage("Hindi");
-//				m.setStatus("Public");
-//				
-//				m.setDirectlink480p("");
-//				m.setDirectlink720p("");
-//	
-//				m.setDirectlink4k("");
-//				m.setPlay480p("");
-//				m.setPlay720p("");
-//		
-//				m.setPlay4k("");
-//				m.setDownload480p("");
-//				m.setDownload720p("");
-//	
-//				m.setDownload4k("");
-//				m.setSize480p("");
-//				m.setSize720p("");
-//
-//				m.setSize4k("");
-//				mov.insert(m);
-//			}
-//			
-//
-//			
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	
+	@GetMapping("/ml")
+	public void ml() {
+		try {
+			
+			File file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\embed.txt");
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			String line;
+			List<String> embed = new  ArrayList<String>();
+			while ((line = bufferedReader.readLine()) != null) {
+				embed.add(line);
+			}
+			fileReader.close();			
+			Collections.reverse(embed); 
+
+			
+			
+			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\directlink.txt");
+		    fileReader = new FileReader(file);
+			bufferedReader = new BufferedReader(fileReader);
+			List<String> directlink = new  ArrayList<String>();
+			while ((line = bufferedReader.readLine()) != null) {
+				directlink.add(line);
+			}
+			fileReader.close();		
+			Collections.reverse(directlink); 
+					
+			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\size.txt");
+		    fileReader = new FileReader(file);
+			bufferedReader = new BufferedReader(fileReader);
+			List<String> size = new  ArrayList<String>();
+			while ((line = bufferedReader.readLine()) != null) {
+				size.add(line);
+			}
+			fileReader.close();	
+			Collections.reverse(size); 
+			
+			
+			
+			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\name.txt");
+		    fileReader = new FileReader(file);
+			bufferedReader = new BufferedReader(fileReader);
+			List<String> name = new  ArrayList<String>();
+			while ((line = bufferedReader.readLine()) != null) {
+				name.add(line);
+			}
+			fileReader.close();	
+			Collections.reverse(name); 
+			
+			
+			
+			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\Image.txt");
+		    fileReader = new FileReader(file);
+			bufferedReader = new BufferedReader(fileReader);
+			List<String> image = new  ArrayList<String>();
+			while ((line = bufferedReader.readLine()) != null) {
+				image.add(line);
+			}
+			fileReader.close();	
+			Collections.reverse(image); 
+			
+			System.out.println("EBDED "+embed.size());
+			System.out.println("Size "+size.size());
+			System.out.println("Direct "+directlink.size());
+			System.out.println("Image "+image.size());
+			System.out.println("name "+name.size());
+			
+			
+			Movie m = new Movie();			
+			for(int i=0; i<embed.size(); i++) {
+                System.out.println(name.get(i)+" "+embed.get(i));
+				m = new Movie();
+				m.setDirectlink720p("OpenLoad");
+				m.setPlay720p(embed.get(i));
+				m.setDownload720p(directlink.get(i));
+				m.setSize720p(size.get(i));
+				m.setName(name.get(i));
+				m.setImage(image.get(i));
+				m.setLanguage("English");
+				m.setStatus("Public");			
+				m.setDirectlink480p("");
+				m.setDirectlink1080p("");
+				m.setDirectlink4k("");
+				m.setPlay480p("");
+				m.setPlay1080p("");
+				m.setPlay4k("");
+				m.setDownload480p("");
+				m.setDownload1080p("");
+				m.setDownload4k("");
+				m.setSize480p("");
+				m.setSize1080p("");
+				m.setSize4k("");
+				mov.insert(m);
+			}
+			
+
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 	@PostMapping("/login")

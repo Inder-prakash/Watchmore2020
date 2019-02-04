@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.watchmoreonline.movies.Movie;
 import com.watchmoreonline.movies.MovieDao;
 import com.watchmoreonline.users.User;
@@ -136,32 +140,7 @@ public class MovieController {
 		}
 	}
 	
-	
-	
-	@PostMapping("/login")
-	public String login(@RequestBody String data) {
-		
-		JSONObject json = new JSONObject();	
-		try
-		{
-			JSONParser jp = new JSONParser();		
-			JSONObject joObject = (JSONObject)jp.parse(data);
-			User u = new User();	
-			u.setEmail(joObject.get("Email").toString());
-			u = udao.find(u);	
-			if( u != null && u.getPassword().equals( joObject.get("Password").toString() ) )
-			{	
-				json.put("msg", "Success");
-			}
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-			json.put("msg", "Failure");
-		}
-		return json.toJSONString();
 
-	}
 	
 	@PostMapping("/AddMovie")
 	public String addmovie(@RequestBody String data) throws ParseException {
@@ -255,6 +234,38 @@ public class MovieController {
 			}	 	
 			return jarr;
 	}
+	
+	
+	
+	@GetMapping("/oo")
+	public JSONArray oo() {	
+		System.out.println("Ssfsfsdf");
+		JSONArray jarr = new JSONArray();
+		int i = 0;
+			for(Movie m : mov.findAll()) {	
+				
+				Movie mc = mov.find(m.getId());
+				
+				int sizec =  m.getDownload1080p().indexOf("openload");
+				
+				if(sizec > 1 ) {
+					String[] arrayc = m.getDownload1080p().split("/f/");
+					String[] arraycc = arrayc[1].split("/");
+					String link = arrayc[0]+"/f/"+arraycc[0];
+					System.out.println(link);
+					mc.setDirectlink1080p("OpenLoad");
+					mc.setPlay1080p(link);
+				}
+			
+				mov.update(mc);
+			}	 	
+			
+			
+			return jarr;
+	}
+	
+	
+	
 	
 	@GetMapping("/PublicMovies")
 	public JSONArray PublicMovies() {	

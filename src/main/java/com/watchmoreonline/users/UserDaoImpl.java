@@ -16,7 +16,18 @@ public class UserDaoImpl implements UserDao {
 
 	public User find(User User) {
 		Query query = new Query(Criteria.where("email").is(User.getEmail()));
-        return mongoTemplate.findOne(query, User.class, COLLECTION);
-        
+        return mongoTemplate.findOne(query, User.class, COLLECTION); 
+	}
+
+	public void add(User User) {
+		mongoTemplate.insert(User);
+	}
+
+	public void delet(User User) {
+		mongoTemplate.remove(User);
+	}
+
+	public void update(User User) {
+		mongoTemplate.save(User);
 	}
 }

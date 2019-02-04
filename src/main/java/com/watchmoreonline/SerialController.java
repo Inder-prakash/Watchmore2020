@@ -63,7 +63,6 @@ public class SerialController {
 			job.put("Total",m.getEname().size());
 			jarr.add(job);
 		}	
-		System.out.println(jarr);
 		return jarr;
 	}
 	
@@ -103,7 +102,6 @@ public class SerialController {
 				jarr.add(job);
 			}
 		}	
-		System.out.println(jarr);
 		return jarr;
 	}
 	 

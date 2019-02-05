@@ -1,4 +1,5 @@
 package com.watchmoreonline;
+
 import org.apache.commons.codec.binary.Hex;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,6 +38,8 @@ public class RestController {
     String hello() {
         return "Backend is running.";
     }	
+	
+	
 	
 	@PostMapping("/signup")
 	public String signup(@RequestBody String data) throws ParseException {
@@ -100,12 +103,37 @@ public class RestController {
 		return jrr;
 	}
 	
+//	@PostMapping("/test")
+//	public JSONArray test(@RequestBody String data) throws ParseException {
+//		
+//		JSONObject json = new JSONObject();	
+//		JSONArray jrr = new JSONArray();
+//		JSONParser jp = new JSONParser();		
+//		JSONObject joObject = (JSONObject)jp.parse(data);
+//		User u = new User();	
+//		String e = joObject.get("email").toString().substring(1, joObject.get("email").toString().length()-1);
+//		String t = joObject.get("token").toString().substring(1, joObject.get("token").toString().length()-1);
+//		u.setEmail(e);
+//		u = udao.find(u);
+//		if( u != null && u.getToken().equals(t) )
+//		{	
+//			json.put("msg", "Success");
+//			json.put("role", u.getRole());
+//			jrr.add(json);
+//		}
+//		else {
+//			json.put("msg", "Failure");
+//			jrr.add(json);
+//		}	
+//		System.out.println("TEST101");
+//		return jrr;
+//	}
+	
+	
 	@PostMapping("/authorization")
-	public JSONArray authorization(@RequestBody String data) {
+	public JSONArray authorization(@RequestBody String data) throws ParseException {
 		JSONObject json = new JSONObject();	
 		JSONArray jrr = new JSONArray();
-		try
-		{
 			JSONParser jp = new JSONParser();		
 			JSONObject joObject = (JSONObject)jp.parse(data);
 			User u = new User();	
@@ -123,13 +151,6 @@ public class RestController {
 				json.put("msg", "Failure");
 				jrr.add(json);
 			}
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-			json.put("msg", "Failure");
-			jrr.add(json);
-		}
 		return jrr;
 	}
 	

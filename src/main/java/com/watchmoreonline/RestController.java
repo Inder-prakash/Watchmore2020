@@ -38,8 +38,7 @@ public class RestController {
     String hello() {
         return "Backend is running.";
     }	
-	
-	
+
 	
 	@PostMapping("/signup")
 	public String signup(@RequestBody String data) throws ParseException {
@@ -64,8 +63,7 @@ public class RestController {
 	}
 	
 	@PostMapping("/login")
-	public JSONArray login(@RequestBody String data , HttpServletRequest req) {
-		System.out.println("ASdasdasdads");
+	public JSONArray login( @RequestBody String data) {
 		JSONObject json = new JSONObject();	
 		JSONArray jrr = new JSONArray();
 		try
@@ -76,19 +74,11 @@ public class RestController {
 			u.setEmail(joObject.get("Email").toString());
 			u = udao.find(u);	
 			if( u != null && u.getPassword().equals( joObject.get("Password").toString()))
-			{	
-//				if(u.getStatus().equals("true")) {
-//					u.setToken(jwtsign(u.getUsername(),u.getEmail(),u.getRole()));
-//					udao.update(u);
-//				}
-//				json.put("msg", "Success");
-				
-				HttpSession s = req.getSession();
-				s.setAttribute("Name", u.getUsername());
-				s.setAttribute("Role", u.getRole());
-				json.put("msg", "Success");		
+			{				
 				json.put("username", u.getUsername());
+				json.put("role", u.getRole());
 				json.put("status", u.getStatus());
+				json.put("msg", "Success");	
 				jrr.add(json);
 			}
 			else {
@@ -105,59 +95,62 @@ public class RestController {
 		return jrr;
 	}
 	
-	@GetMapping("/logout")
-	public JSONArray logout(HttpServletRequest req) throws ParseException {
-		JSONObject json = new JSONObject();	
-		JSONArray jrr = new JSONArray();
-		HttpSession s = req.getSession();
-		s.removeAttribute("Name");
-		s.removeAttribute("Role");
-		if(s.getAttribute("Name") == "")
-		{	
-			json.put("msg", "Success");
-			jrr.add(json);
-		}
-		else {
-			json.put("msg", "Failure");
-			jrr.add(json);
-		}	
-		return jrr;
-	}
+//	@GetMapping("/logout")
+//	public JSONArray logout(HttpServletRequest reqeust) throws ParseException {
+//		JSONObject json = new JSONObject();	
+//		JSONArray jrr = new JSONArray();
+//		HttpSession session = reqeust.getSession();
+//		session.removeAttribute("Name");
+//		session.removeAttribute("Role");
+//		if(session.getAttribute("Name") == null)
+//		{	
+//			json.put("msg", "Success");
+//			jrr.add(json);
+//		}
+//		else {
+//			json.put("msg", "Failure");
+//			jrr.add(json);
+//		}	
+//		return jrr;
+//	}
+//	
 	
+//	@GetMapping("/userauthorization")
+//	public JSONArray userauthorization (HttpServletRequest reqeust) throws ParseException {
+//		JSONObject json = new JSONObject();	
+//		JSONArray jrr = new JSONArray();
+//		HttpSession session = reqeust.getSession();
+//		System.out.println("Your Session in auth name " +session.getAttribute("Name"));
+//		if(session.getAttribute("Name") == null)
+//		{	
+//			System.out.println("Paasssed");
+//			json.put("msg", "Success");
+//			jrr.add(json);
+//		}
+//		else {
+//			System.out.println("Session Failed");
+//			json.put("msg", "Failure");
+//			jrr.add(json);
+//		}	
+//		return jrr;
+//	}
 	
-	@GetMapping("/userauthorization")
-	public JSONArray userauthorization (HttpServletRequest req) throws ParseException {
-		JSONObject json = new JSONObject();	
-		JSONArray jrr = new JSONArray();
-		HttpSession s = req.getSession();
-		if(s.getAttribute("Name") != "")
-		{	
-			json.put("msg", "Success");
-			jrr.add(json);
-		}
-		else {
-			json.put("msg", "Failure");
-			jrr.add(json);
-		}	
-		return jrr;
-	}
-	
-	@GetMapping("/adminauthorization")
-	public JSONArray adminauthorization (HttpServletRequest req) throws ParseException {
-		JSONObject json = new JSONObject();	
-		JSONArray jrr = new JSONArray();
-		HttpSession s = req.getSession();
-		if(s.getAttribute("Name") != "" || s.getAttribute("Role") == "Admin")
-		{	
-			json.put("msg", "Success");
-			jrr.add(json);
-		}
-		else {
-			json.put("msg", "Failure");
-			jrr.add(json);
-		}	
-		return jrr;
-	}
+//	@GetMapping("/adminauthorization")
+//	public JSONArray adminauthorization (HttpServletRequest reqeust) throws ParseException {
+//		JSONObject json = new JSONObject();	
+//		JSONArray jrr = new JSONArray();
+//		HttpSession session = reqeust.getSession();
+//		if(session.getAttribute("Name") != null || session.getAttribute("Role") == "Admin")
+//		{	
+//			json.put("msg", "Success");
+//			jrr.add(json);
+//		}
+//		else {
+//			json.put("msg", "Failure");
+//			jrr.add(json);
+//		}	
+//		return jrr;
+//	}
 	
   }
 	

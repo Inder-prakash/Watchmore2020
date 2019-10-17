@@ -9,14 +9,12 @@ import com.fasterxml.jackson.databind.util.ArrayBuilders.BooleanBuilder;
 public class User {
 	
 	@Id
- 
 	private String id;
 	private String username;
 	private String email;
 	private String password;
 	private String status = "false";
 	private String role = "User";
-	private String token = "na";
 	
 	public String getId() {
 		return id;
@@ -54,14 +52,6 @@ public class User {
 	}
 	public void setRole(String role) {
 		this.role = role;
-	}
-	
-	
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
 	}
 	
 	public User() {

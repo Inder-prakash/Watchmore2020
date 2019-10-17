@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.watchmoreonline.moviebase.MovieBase;
+import com.watchmoreonline.moviebase.MovieBaseDao;
 import com.watchmoreonline.movies.Movie;
 import com.watchmoreonline.movies.MovieDao;
 import com.watchmoreonline.users.User;
@@ -35,140 +37,26 @@ public class MovieController {
 	MovieDao mov;
 	
 	@Autowired
+	MovieBaseDao mbd;
+	
+	@Autowired
 	UserDao udao;
-	
-	@GetMapping("/ml")
-	public void ml() {
-		try {
-			
-			File file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\embed.txt");
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			String line;
-			List<String> embed = new  ArrayList<String>();
-			while ((line = bufferedReader.readLine()) != null) {
-				embed.add(line);
-			}
-			fileReader.close();			
-			Collections.reverse(embed); 
 
-			
-			
-			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\directlink.txt");
-		    fileReader = new FileReader(file);
-			bufferedReader = new BufferedReader(fileReader);
-			List<String> directlink = new  ArrayList<String>();
-			while ((line = bufferedReader.readLine()) != null) {
-				directlink.add(line);
-			}
-			fileReader.close();		
-			Collections.reverse(directlink); 
-					
-			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\size.txt");
-		    fileReader = new FileReader(file);
-			bufferedReader = new BufferedReader(fileReader);
-			List<String> size = new  ArrayList<String>();
-			while ((line = bufferedReader.readLine()) != null) {
-				size.add(line);
-			}
-			fileReader.close();	
-			Collections.reverse(size); 
-			
-			
-			
-			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\name.txt");
-		    fileReader = new FileReader(file);
-			bufferedReader = new BufferedReader(fileReader);
-			List<String> name = new  ArrayList<String>();
-			while ((line = bufferedReader.readLine()) != null) {
-				name.add(line);
-			}
-			fileReader.close();	
-			Collections.reverse(name); 
-			
-			
-			
-			file = new File("C:\\Users\\Dovahkiin\\Desktop\\data\\Image.txt");
-		    fileReader = new FileReader(file);
-			bufferedReader = new BufferedReader(fileReader);
-			List<String> image = new  ArrayList<String>();
-			while ((line = bufferedReader.readLine()) != null) {
-				image.add(line);
-			}
-			fileReader.close();	
-			Collections.reverse(image); 
-			
-			System.out.println("EBDED "+embed.size());
-			System.out.println("Size "+size.size());
-			System.out.println("Direct "+directlink.size());
-			System.out.println("Image "+image.size());
-			System.out.println("name "+name.size());
-			
-			
-			Movie m = new Movie();			
-			for(int i=0; i<embed.size(); i++) {
-                System.out.println(name.get(i)+" "+embed.get(i));
-				m = new Movie();
-				m.setDirectlink720p("OpenLoad");
-				m.setPlay720p(embed.get(i));
-				m.setDownload720p(directlink.get(i));
-				m.setSize720p(size.get(i));
-				m.setName(name.get(i));
-				m.setImage(image.get(i));
-				m.setLanguage("English");
-				m.setStatus("Public");			
-				m.setDirectlink480p("");
-				m.setDirectlink1080p("");
-				m.setDirectlink4k("");
-				m.setPlay480p("");
-				m.setPlay1080p("");
-				m.setPlay4k("");
-				m.setDownload480p("");
-				m.setDownload1080p("");
-				m.setDownload4k("");
-				m.setSize480p("");
-				m.setSize1080p("");
-				m.setSize4k("");
-				mov.insert(m);
-			}
-			
-
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-
-	
 	@PostMapping("/AddMovie")
 	public String addmovie(@RequestBody String data) throws ParseException {
 		JSONParser jp = new JSONParser();		
 		JSONObject json = new JSONObject();	
 			JSONObject joObject = (JSONObject)jp.parse(data);	
-			Movie m = new Movie();
+			MovieBase m = new MovieBase();
 			m.setName(joObject.get("Name").toString());
 			m.setImage(joObject.get("Image").toString());
-			m.setDirectlink480p(joObject.get("Directlink480p").toString());
-			m.setDirectlink720p(joObject.get("Directlink720p").toString());
-			m.setDirectlink1080p(joObject.get("Directlink1080p").toString());
-			m.setDirectlink4k(joObject.get("Directlink4k").toString());
-			m.setPlay480p(joObject.get("Play480p").toString());
-			m.setPlay720p(joObject.get("Play720p").toString());
-			m.setPlay1080p(joObject.get("Play1080p").toString());
-			m.setPlay4k(joObject.get("Play4k").toString());
-			m.setDownload480p(joObject.get("Download480p").toString());
-			m.setDownload720p(joObject.get("Download720p").toString());
-			m.setDownload1080p(joObject.get("Download1080p").toString());
-			m.setDownload4k(joObject.get("Download4k").toString());
-			m.setSize480p(joObject.get("Size480p").toString());
-			m.setSize720p(joObject.get("Size720p").toString());
-			m.setSize1080p(joObject.get("Size1080p").toString());
-			m.setSize4k(joObject.get("Size4k").toString());
 			m.setLanguage(joObject.get("Language").toString());
+			m.setLink(joObject.get("Link").toString());
+			m.setSize(joObject.get("Size").toString());
 			m.setStatus(joObject.get("Status").toString());
-			mov.insert(m);
+			m.setGenere(joObject.get("Genere").toString());
+			m.setDiscription(joObject.get("Discription").toString());
+			mbd.insert(m);
 			json.put("msg","Data Saved");
 			return json.toJSONString();	
 	}
@@ -178,28 +66,16 @@ public class MovieController {
 		JSONArray jarr = new JSONArray();
 		JSONObject job = new JSONObject();	
 		JSONParser jp = new JSONParser();		
-		Movie m = mov.find(data);
+		MovieBase m = mbd.find(data);
 		job.put("Id",m.getId());		
 		job.put("Name",m.getName());
 		job.put("Image",m.getImage());
-		job.put("Directlink480p",m.getDirectlink480p());
-		job.put("Directlink720p",m.getDirectlink720p());
-		job.put("Directlink1080p",m.getDirectlink1080p());
-		job.put("Directlink4k",m.getDirectlink4k());
-		job.put("Play480p",m.getPlay480p());
-		job.put("Play720p",m.getPlay720p());
-		job.put("Play1080p",m.getPlay1080p());
-		job.put("Play4k",m.getPlay4k());
-		job.put("Download480p",m.getDownload480p());
-		job.put("Download720p",m.getDownload720p());
-		job.put("Download1080p",m.getDownload1080p());
-		job.put("Download4k",m.getDownload4k());
-		job.put("Size480p",m.getSize480p());
-		job.put("Size720p",m.getSize720p());
-		job.put("Size1080p",m.getSize1080p());
-		job.put("Size4k",m.getSize4k());
 		job.put("Language",m.getLanguage());
 		job.put("Status",m.getStatus());
+		job.put("Link",m.getLink());
+		job.put("Discription",m.getDiscription());
+		job.put("Genere",m.getGenere());
+		job.put("Size",m.getSize());
 		jarr.add(job);
 		return jarr;	
 	}
@@ -207,93 +83,37 @@ public class MovieController {
 	@GetMapping("/ViewMovies")
 	public JSONArray ViewMovies() {	
 		JSONArray jarr = new JSONArray();
-			for(Movie m : mov.findAll()) {	
+			for(MovieBase m : mbd.findAll()) {	
 				JSONObject job = new JSONObject();	
 				job.put("Id",m.getId());		
 				job.put("Name",m.getName());
 				job.put("Image",m.getImage());
-				job.put("Directlink480p",m.getDirectlink480p());
-				job.put("Directlink720p",m.getDirectlink720p());
-				job.put("Directlink1080p",m.getDirectlink1080p());
-				job.put("Directlink4k",m.getDirectlink4k());
-				job.put("Play480p",m.getPlay480p());
-				job.put("Play720p",m.getPlay720p());
-				job.put("Play1080p",m.getPlay1080p());
-				job.put("Play4k",m.getPlay4k());
-				job.put("Download480p",m.getDownload480p());
-				job.put("Download720p",m.getDownload720p());
-				job.put("Download1080p",m.getDownload1080p());
-				job.put("Download4k",m.getDownload4k());
-				job.put("Size480p",m.getSize480p());
-				job.put("Size720p",m.getSize720p());
-				job.put("Size1080p",m.getSize1080p());
-				job.put("Size4k",m.getSize4k());
 				job.put("Language",m.getLanguage());
 				job.put("Status",m.getStatus());
+				job.put("Link",m.getLink());
+				job.put("Discription",m.getDiscription());
+				job.put("Genere",m.getGenere());
+				job.put("Size",m.getSize());
 				jarr.add(job);
 			}	 	
 			return jarr;
 	}
 	
-	
-	
-	@GetMapping("/oo")
-	public JSONArray oo() {	
-		System.out.println("Ssfsfsdf");
-		JSONArray jarr = new JSONArray();
-		int i = 0;
-			for(Movie m : mov.findAll()) {	
-				
-				Movie mc = mov.find(m.getId());
-				
-				int sizec =  m.getDownload1080p().indexOf("openload");
-				
-				if(sizec > 1 ) {
-					String[] arrayc = m.getDownload1080p().split("/f/");
-					String[] arraycc = arrayc[1].split("/");
-					String link = arrayc[0]+"/f/"+arraycc[0];
-					System.out.println(link);
-					mc.setDirectlink1080p("OpenLoad");
-					mc.setPlay1080p(link);
-				}
-			
-				mov.update(mc);
-			}	 	
-			
-			
-			return jarr;
-	}
-	
-	
-	
-	
 	@GetMapping("/PublicMovies")
 	public JSONArray PublicMovies() {	
 		JSONArray jarr = new JSONArray();
-		for(Movie m : mov.findAll()) {	
+		for(MovieBase m : mbd.findAll()) {	
 			if(m.getStatus().equals("Public")) {
 				JSONObject job = new JSONObject();	
 				job.put("Id",m.getId());		
 				job.put("Name",m.getName());
 				job.put("Image",m.getImage());
-				job.put("Directlink480p",m.getDirectlink480p());
-				job.put("Directlink720p",m.getDirectlink720p());
-				job.put("Directlink1080p",m.getDirectlink1080p());
-				job.put("Directlink4k",m.getDirectlink4k());
-				job.put("Play480p",m.getPlay480p());
-				job.put("Play720p",m.getPlay720p());
-				job.put("Play1080p",m.getPlay1080p());
-				job.put("Play4k",m.getPlay4k());
-				job.put("Download480p",m.getDownload480p());
-				job.put("Download720p",m.getDownload720p());
-				job.put("Download1080p",m.getDownload1080p());
-				job.put("Download4k",m.getDownload4k());
-				job.put("Size480p",m.getSize480p());
-				job.put("Size720p",m.getSize720p());
-				job.put("Size1080p",m.getSize1080p());
-				job.put("Size4k",m.getSize4k());
 				job.put("Language",m.getLanguage());
 				job.put("Status",m.getStatus());
+				job.put("Link",m.getLink());
+				job.put("Discription",m.getDiscription());
+				job.put("Genere",m.getGenere());
+				job.put("Size",m.getSize());
 				jarr.add(job);
 			}
 		}	 	
@@ -301,101 +121,117 @@ public class MovieController {
 	}
 	
 	
-	@GetMapping("/hindiMovies")
-	public JSONArray hindiMovies() {	
+
+	public JSONArray getingmovies (String Status , String Language) {
 		JSONArray jarr = new JSONArray();
-		for(Movie m : mov.findAll()) {	
-			if(m.getStatus().equals("Public") && m.getLanguage().equals("Hindi")) {
+		for(MovieBase m : mbd.findAll()) {	
+			if(m.getStatus().equals(Status) && m.getLanguage().equals(Language)) {
 				JSONObject job = new JSONObject();	
 				job.put("Id",m.getId());		
 				job.put("Name",m.getName());
 				job.put("Image",m.getImage());
-				job.put("Directlink480p",m.getDirectlink480p());
-				job.put("Directlink720p",m.getDirectlink720p());
-				job.put("Directlink1080p",m.getDirectlink1080p());
-				job.put("Directlink4k",m.getDirectlink4k());
-				job.put("Play480p",m.getPlay480p());
-				job.put("Play720p",m.getPlay720p());
-				job.put("Play1080p",m.getPlay1080p());
-				job.put("Play4k",m.getPlay4k());
-				job.put("Download480p",m.getDownload480p());
-				job.put("Download720p",m.getDownload720p());
-				job.put("Download1080p",m.getDownload1080p());
-				job.put("Download4k",m.getDownload4k());
-				job.put("Size480p",m.getSize480p());
-				job.put("Size720p",m.getSize720p());
-				job.put("Size1080p",m.getSize1080p());
-				job.put("Size4k",m.getSize4k());
 				job.put("Language",m.getLanguage());
 				job.put("Status",m.getStatus());
+				job.put("Link",m.getLink());
+				job.put("Discription",m.getDiscription());
+				job.put("Genere",m.getGenere());
+				job.put("Size",m.getSize());
 				jarr.add(job);
 			}
-		}	 	
+		}
 		return jarr;
+	}
+	
+	public JSONArray getingmoviesbycat (String Status , String Genere) {
+		JSONArray jarr = new JSONArray();
+		for(MovieBase m : mbd.findAll()) {	
+			if(m.getStatus().equals(Status) && m.getGenere().equals(Genere)) {
+				JSONObject job = new JSONObject();	
+				job.put("Id",m.getId());		
+				job.put("Name",m.getName());
+				job.put("Image",m.getImage());
+				job.put("Language",m.getLanguage());
+				job.put("Status",m.getStatus());
+				job.put("Link",m.getLink());
+				job.put("Discription",m.getDiscription());
+				job.put("Genere",m.getGenere());
+				job.put("Size",m.getSize());
+				jarr.add(job);
+			}
+		}
+		return jarr;
+	}
+	
+	@GetMapping("/hindiMovies")
+	public JSONArray hindiMovies() {	
+		return getingmovies("Public","Hindi");
 	}
 	
 	@GetMapping("/englishMovies")
 	public JSONArray englishMovies() {	
-		JSONArray jarr = new JSONArray();
-		for(Movie m : mov.findAll()) {	
-			if(m.getStatus().equals("Public") && m.getLanguage().equals("English") ) {
-				JSONObject job = new JSONObject();	
-				job.put("Id",m.getId());		
-				job.put("Name",m.getName());
-				job.put("Image",m.getImage());
-				job.put("Directlink480p",m.getDirectlink480p());
-				job.put("Directlink720p",m.getDirectlink720p());
-				job.put("Directlink1080p",m.getDirectlink1080p());
-				job.put("Directlink4k",m.getDirectlink4k());
-				job.put("Play480p",m.getPlay480p());
-				job.put("Play720p",m.getPlay720p());
-				job.put("Play1080p",m.getPlay1080p());
-				job.put("Play4k",m.getPlay4k());
-				job.put("Download480p",m.getDownload480p());
-				job.put("Download720p",m.getDownload720p());
-				job.put("Download1080p",m.getDownload1080p());
-				job.put("Download4k",m.getDownload4k());
-				job.put("Size480p",m.getSize480p());
-				job.put("Size720p",m.getSize720p());
-				job.put("Size1080p",m.getSize1080p());
-				job.put("Size4k",m.getSize4k());
-				job.put("Language",m.getLanguage());
-				job.put("Status",m.getStatus());
-				jarr.add(job);
-			}
-		}	 	
-		return jarr;
+		return getingmovies("Public","English");
 	}
 	
+	@GetMapping("/CrimeMovies")
+	public JSONArray CrimeMovies() {	
+		return getingmoviesbycat("Public","Crime");
+	}
 	
+	@GetMapping("/ComedyMovies")
+	public JSONArray ComedyMovies() {	
+		return getingmoviesbycat("Public","Comedy");
+	}
+	
+	@GetMapping("/SciFiMovies")
+	public JSONArray SciFiMovies() {	
+		return getingmoviesbycat("Public","Sci-Fi");
+	}
+	
+	@GetMapping("/HorrorMovies")
+	public JSONArray HorrorMovies() {	
+		return getingmoviesbycat("Public","Horror");
+	}
+	
+	@GetMapping("/RomanceMovies")
+	public JSONArray RomanceMovies() {	
+		return getingmoviesbycat("Public","Romance");
+	}
+	
+	@GetMapping("/ActionMovies")
+	public JSONArray ActionMovies() {	
+		return getingmoviesbycat("Public","Action");
+	}
+	
+	@GetMapping("/DramaMovies")
+	public JSONArray DramaMovies() {	
+		return getingmoviesbycat("Public","Drama");
+	}
+	
+	@GetMapping("/AnimationMovies")
+	public JSONArray AnimationMovies() {	
+		return getingmoviesbycat("Public","Animation");
+	}
+	
+	@GetMapping("/AdventureMovies")
+	public JSONArray AdventureMovies() {	
+		return getingmoviesbycat("Public","Adventure");
+	}
 	
 	@GetMapping("/PrivateMovies")
 	public JSONArray PrivateMovies() {	
 		JSONArray jarr = new JSONArray();
-		for(Movie m : mov.findAll()) {	
+		for(MovieBase m : mbd.findAll()) {	
 			if(m.getStatus().equals("Private")) {
 				JSONObject job = new JSONObject();	
 				job.put("Id",m.getId());		
 				job.put("Name",m.getName());
 				job.put("Image",m.getImage());
-				job.put("Directlink480p",m.getDirectlink480p());
-				job.put("Directlink720p",m.getDirectlink720p());
-				job.put("Directlink1080p",m.getDirectlink1080p());
-				job.put("Directlink4k",m.getDirectlink4k());
-				job.put("Play480p",m.getPlay480p());
-				job.put("Play720p",m.getPlay720p());
-				job.put("Play1080p",m.getPlay1080p());
-				job.put("Play4k",m.getPlay4k());
-				job.put("Download480p",m.getDownload480p());
-				job.put("Download720p",m.getDownload720p());
-				job.put("Download1080p",m.getDownload1080p());
-				job.put("Download4k",m.getDownload4k());
-				job.put("Size480p",m.getSize480p());
-				job.put("Size720p",m.getSize720p());
-				job.put("Size1080p",m.getSize1080p());
-				job.put("Size4k",m.getSize4k());
 				job.put("Language",m.getLanguage());
 				job.put("Status",m.getStatus());
+				job.put("Link",m.getLink());
+				job.put("Discription",m.getDiscription());
+				job.put("Genere",m.getGenere());
+				job.put("Size",m.getSize());
 				jarr.add(job);
 			}
 		}	 	
@@ -407,28 +243,16 @@ public class MovieController {
 		JSONObject json = new JSONObject();	
 		JSONParser jp = new JSONParser();		
 		JSONObject joObject = (JSONObject)jp.parse(data);
-		Movie m = mov.find(joObject.get("Id").toString());
+		MovieBase m = mbd.find(joObject.get("Id").toString());	
 		m.setName(joObject.get("Name").toString());
 		m.setImage(joObject.get("Image").toString());
-		m.setDirectlink480p(joObject.get("Directlink480p").toString());
-		m.setDirectlink720p(joObject.get("Directlink720p").toString());
-		m.setDirectlink1080p(joObject.get("Directlink1080p").toString());
-		m.setDirectlink4k(joObject.get("Directlink4k").toString());
-		m.setPlay480p(joObject.get("Play480p").toString());
-		m.setPlay720p(joObject.get("Play720p").toString());
-		m.setPlay1080p(joObject.get("Play1080p").toString());
-		m.setPlay4k(joObject.get("Play4k").toString());
-		m.setDownload480p(joObject.get("Download480p").toString());
-		m.setDownload720p(joObject.get("Download720p").toString());
-		m.setDownload1080p(joObject.get("Download1080p").toString());
-		m.setDownload4k(joObject.get("Download4k").toString());
-		m.setSize480p(joObject.get("Size480p").toString());
-		m.setSize720p(joObject.get("Size720p").toString());
-		m.setSize1080p(joObject.get("Size1080p").toString());
-		m.setSize4k(joObject.get("Size4k").toString());
 		m.setLanguage(joObject.get("Language").toString());
+		m.setLink(joObject.get("Link").toString());
+		m.setSize(joObject.get("Size").toString());
 		m.setStatus(joObject.get("Status").toString());
-		mov.update(m);
+		m.setGenere(joObject.get("Genere").toString());
+		m.setDiscription(joObject.get("Discription").toString());
+		mbd.update(m);
 		json.put("msg","Data Update");
 		return json.toJSONString();		
 	}
@@ -439,8 +263,8 @@ public class MovieController {
 		JSONObject json = new JSONObject();	
 		
 		for(String d:data) {
-			Movie m = mov.find(d);
-			mov.delete(m);
+			MovieBase m = mbd.find(d);
+			mbd.delete(m);
 		}
 		
 		json.put("msg","Data Deleted");
@@ -452,8 +276,8 @@ public class MovieController {
 		JSONObject json = new JSONObject();	
 		JSONParser jp = new JSONParser();		
 		JSONObject joObject = (JSONObject)jp.parse(data);
-		Movie m = mov.find(joObject.get("Id").toString());
-		mov.delete(m);
+		MovieBase m = mbd.find(joObject.get("Id").toString());
+		mbd.delete(m);
 		json.put("msg","Data Deleted");
 		return json.toJSONString();
 	}

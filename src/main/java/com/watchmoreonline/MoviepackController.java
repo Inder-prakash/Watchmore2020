@@ -31,7 +31,6 @@ public class MoviepackController {
 	
 	@PostMapping("/newcollection")
 	public String newcollection(@RequestBody String data ) throws ParseException {
-		System.out.println(data);
 		JSONObject json = new JSONObject();	
 		MovieCollection m = new MovieCollection();
 		m.setName(data);	

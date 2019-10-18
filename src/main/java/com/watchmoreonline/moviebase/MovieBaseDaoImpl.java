@@ -14,7 +14,6 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 	final String COLLECTION = "moviesbase";
 
 	public void insert(MovieBase m) {
-		System.out.println("PRINT   ");
 		mongoTemplate.insert(m);
 	}
 

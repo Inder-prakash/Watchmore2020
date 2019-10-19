@@ -144,7 +144,7 @@ public class RestController {
 		Verifier verifier = HMACVerifier.newVerifier("f1e33ab3-027f-47c5-bb07-8dd8ab37a2d3");
 		try {
 			JWT jwt2 = JWT.getDecoder().decode(token, verifier);
-			if(jwt2.getAllClaims().get("role") == "Admin") {
+			if(jwt2.getAllClaims().get("role").equals("Admin")) {
 				json.put("msg", "Success");
 				jrr.add(json);
 			}

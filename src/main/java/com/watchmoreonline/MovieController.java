@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.sound.midi.Soundbank;
 
+import org.apache.commons.io.FilenameUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,7 +46,6 @@ public class MovieController {
 	
 	@Autowired
 	UserDao udao;
-
 	
 	public String upload(HttpServletRequest req , String imageUrl) {
 		try {
@@ -121,7 +121,7 @@ public class MovieController {
 	}
 	
 	@GetMapping("/ViewMovies")
-	public JSONArray ViewMovies() {	
+	public JSONArray ViewMovies() throws IOException {	
 		JSONArray jarr = new JSONArray();
 			for(MovieBase m : mbd.findAll()) {	
 				JSONObject job = new JSONObject();	
@@ -134,6 +134,8 @@ public class MovieController {
 				job.put("Discription",m.getDiscription());
 				job.put("Genere",m.getGenere());
 				job.put("Size",m.getSize());
+				saveImage(m.getImage(), "E:\\Movies\\"+job.put("Id",m.getId())+".jpg");
+				System.out.println();
 				jarr.add(job);
 			}	 	
 			return jarr;

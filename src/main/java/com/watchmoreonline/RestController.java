@@ -113,7 +113,7 @@ public class RestController {
 		                   .setSubject("HAHABABABA")
 		                   .addClaim("username",username)
 		                   .addClaim("role", role)
-		                   .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(60));
+		                   .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusHours(8));
 		return JWT.getEncoder().encode(jwt, signer512);
 	}
 	

@@ -3,7 +3,6 @@ package com.watchmoreonline;
 import java.rmi.server.SocketSecurityException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.watchmoreonline.collection.MovieCollection;
-import com.watchmoreonline.movies.Movie;
-import com.watchmoreonline.movies.MovieDao;
+import com.watchmoreonline.moviebase.MovieBase;
+import com.watchmoreonline.moviebase.MovieBaseDao;
 import com.watchmoreonline.sequals.Sequals;
 import com.watchmoreonline.sequals.SequalsDao;
 
@@ -27,7 +25,7 @@ public class SequalsController {
 	SequalsDao sdao;
 
 	@Autowired
-	MovieDao mov;
+	MovieBaseDao mov;
 	
 	@PostMapping("/newsequals")
 	public String newsequals(@RequestBody String data ) throws ParseException {
@@ -52,7 +50,7 @@ public class SequalsController {
 	public JSONArray getsequals(@RequestBody String data) {	
 		JSONArray jarr = new JSONArray();
 		JSONObject job = new JSONObject();	
-		Movie m = new Movie();
+		MovieBase m = new MovieBase();
 		Sequals s = sdao.find(data);
 		if(s != null) {
 		List<String> moviename = s.getMovieid();

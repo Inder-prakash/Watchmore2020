@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.watchmoreonline.movies.Movie;
 
 @Repository("SerialDao")
 public class SerialDaoImpl implements SerialDao {

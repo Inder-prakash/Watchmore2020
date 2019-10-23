@@ -1,7 +1,6 @@
 package com.watchmoreonline;
 
 import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,11 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.watchmoreonline.collection.MovieCollection;
 import com.watchmoreonline.collection.MovieCollectionDao;
-import com.watchmoreonline.movies.Movie;
-import com.watchmoreonline.movies.MovieDao;
+import com.watchmoreonline.moviebase.MovieBase;
+import com.watchmoreonline.moviebase.MovieBaseDao;
 import com.watchmoreonline.sequals.Sequals;
 import com.watchmoreonline.sequals.SequalsDao;
 
@@ -27,7 +25,7 @@ public class MoviepackController {
 	@Autowired
 	SequalsDao sdao;
 	@Autowired
-	MovieDao move;
+	MovieBaseDao move;
 	
 	@PostMapping("/newcollection")
 	public String newcollection(@RequestBody String data ) throws ParseException {
@@ -82,7 +80,7 @@ public class MoviepackController {
 			List<String> moviename = s.getMovieid();
 			for(String ms:moviename) {
 				job = new JSONObject();		
-				Movie m = move.find(ms);
+				MovieBase m = move.find(ms);
 				job.put("Id",m.getId());		
 				job.put("Name",m.getName());
 				job.put("Image",m.getImage());

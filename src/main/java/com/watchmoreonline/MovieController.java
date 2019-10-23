@@ -24,17 +24,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.watchmoreonline.moviebase.MovieBase;
 import com.watchmoreonline.moviebase.MovieBaseDao;
-import com.watchmoreonline.movies.Movie;
-import com.watchmoreonline.movies.MovieDao;
 import com.watchmoreonline.users.User;
 import com.watchmoreonline.users.UserDao;
 
 @org.springframework.web.bind.annotation.RestController
 public class MovieController {
 	
-	
-	@Autowired
-	MovieDao mov;
 	
 	@Autowired
 	MovieBaseDao mbd;

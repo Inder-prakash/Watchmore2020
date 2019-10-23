@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.watchmoreonline.collection.MovieCollection;
-import com.watchmoreonline.movies.Movie;
 import com.watchmoreonline.sequals.Sequals;
 import com.watchmoreonline.serials.Serial;
 import com.watchmoreonline.serials.SerialDao;

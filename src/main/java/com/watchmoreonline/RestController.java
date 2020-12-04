@@ -45,9 +45,9 @@ public class RestController {
 	@RequestMapping("/")
     @ResponseBody
     String hello() {
-        return "Backend is running.";
+  
+		return "Backend is running.";
     }	
-
 	
 	@PostMapping("/signup")
 	public String signup(@RequestBody String data) throws ParseException {

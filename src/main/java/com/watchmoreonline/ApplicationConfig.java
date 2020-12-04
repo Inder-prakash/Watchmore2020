@@ -13,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 
@@ -21,14 +22,22 @@ import com.mongodb.ServerAddress;
 @EnableWebMvc
 
 public class ApplicationConfig {
-	public @Bean MongoClient mongoClient() throws UnknownHostException {
-        return new MongoClient(new ServerAddress("ds131551.mlab.com",31551), new ArrayList<MongoCredential>() {
-            {
-                add(MongoCredential.createCredential("inder", "watchmoreonline", "inder@123".toCharArray()));
-            }
-        });
-    }
 	
+	public @Bean MongoClient mongoClient() throws UnknownHostException {
+        return new MongoClient(
+        		new MongoClientURI("mongodb+srv://watchmore:watchmore123@watchmoreonline.aozwy.mongodb.net/watchmoreonline?"
+        				+ "retryWrites=true&w=majority"));
+	}
+	
+//	public @Bean MongoClient mongoClient() throws UnknownHostException {
+//        return new MongoClient(new ServerAddress("ds131551.mlab.com",31551), new ArrayList<MongoCredential>() {
+//            {
+//                add(MongoCredential.createCredential("inder", "watchmoreonline", "inder@123".toCharArray()));
+//                System.out.println("Connect");
+//            }
+//        });
+//    }
+//	
 	@Bean
     public MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(mongoClient(), "watchmoreonline");

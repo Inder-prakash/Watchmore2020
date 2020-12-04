@@ -134,7 +134,7 @@ public class MovieController {
 				job.put("Discription",m.getDiscription());
 				job.put("Genere",m.getGenere());
 				job.put("Size",m.getSize());
-				saveImage(m.getImage(), "E:\\Movies\\"+job.put("Id",m.getId())+".jpg");
+//				saveImage(m.getImage(), "E:\\Movies\\"+job.put("Id",m.getId())+".jpg");
 				System.out.println();
 				jarr.add(job);
 			}	 	

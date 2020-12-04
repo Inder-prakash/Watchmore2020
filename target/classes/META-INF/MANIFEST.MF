@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
+Built-By: DovahKiin
+Build-Jdk: 15.0.1
 Implementation-Title: WatchMoreOnline
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: DovahKiin
 Implementation-Vendor-Id: com.watchmoreonline
-Build-Jdk: 1.8.0_231
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/watchmoreonline
-Created-By: Maven Integration for Eclipse
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/watchmoreonline
 Main-Class: com.watchmoreonline.Main
+Created-By: Maven Integration for Eclipse
 

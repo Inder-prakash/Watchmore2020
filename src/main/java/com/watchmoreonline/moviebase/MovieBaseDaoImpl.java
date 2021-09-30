@@ -3,6 +3,8 @@ package com.watchmoreonline.moviebase;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository("MovieBaseDao")
@@ -32,6 +34,17 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 
 	public List<MovieBase> findAll() {
 		return (List <MovieBase> ) mongoTemplate.findAll(MovieBase.class);
+	}
+	
+	public List<MovieBase> publicmovies() {
+		Query query = new Query(Criteria.where("Status").is("Public"));
+        return mongoTemplate.find(query,MovieBase.class);
+	}
+
+	@Override
+	public List<MovieBase> privatemovies() {
+		Query query = new Query(Criteria.where("Status").is("Private"));
+        return mongoTemplate.find(query,MovieBase.class);
 	}
 	
 	

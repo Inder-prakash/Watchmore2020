@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "moviesbase")
 public class MovieBase {
+	
 	@Id
 	private String id;
 	private String name;

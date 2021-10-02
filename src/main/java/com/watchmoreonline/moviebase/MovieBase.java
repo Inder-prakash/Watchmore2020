@@ -16,31 +16,22 @@ public class MovieBase {
 	private String Discription;
 	private String Link;
 
-	
-
 	public String getId() {
 		return id;
 	}
-
-
-
+	
 	public void setId(String id) {
 		this.id = id;
+		
 	}
-
-
 
 	public String getName() {
 		return name;
 	}
 
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	public String getImage() {
 		return image;
@@ -52,37 +43,25 @@ public class MovieBase {
 		this.image = image;
 	}
 
-
-
 	public String getLanguage() {
 		return Language;
 	}
-
-
 
 	public void setLanguage(String language) {
 		Language = language;
 	}
 
-
-
 	public String getStatus() {
 		return Status;
 	}
-
-
 
 	public void setStatus(String status) {
 		Status = status;
 	}
 
-
-
 	public String getSize() {
 		return Size;
 	}
-
-
 
 	public void setSize(String size) {
 		Size = size;
@@ -123,12 +102,5 @@ public class MovieBase {
 	public void setLink(String link) {
 		Link = link;
 	}
-
-
-
-	public MovieBase() {
-		super();
-	}
-	
 	
 }

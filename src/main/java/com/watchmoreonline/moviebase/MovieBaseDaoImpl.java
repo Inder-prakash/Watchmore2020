@@ -36,14 +36,20 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 		return (List <MovieBase> ) mongoTemplate.findAll(MovieBase.class);
 	}
 	
-	public List<MovieBase> publicmovies() {
-		Query query = new Query(Criteria.where("Status").is("Public"));
+	public List<MovieBase> movieByStatus(String status) {
+		Query query = new Query(Criteria.where("Status").is(status));
         return mongoTemplate.find(query,MovieBase.class);
 	}
 
 	@Override
-	public List<MovieBase> privatemovies() {
-		Query query = new Query(Criteria.where("Status").is("Private"));
+	public List<MovieBase> movieByCategories(String genere , String status) {
+		Query query = new Query(Criteria.where("Genere").is(genere).and("Status").is(status));
+        return mongoTemplate.find(query,MovieBase.class);
+	}
+
+	@Override
+	public List<MovieBase> movieByLanguage(String lang, String status) {
+		Query query = new Query(Criteria.where("Language").is(lang).and("Status").is(status));
         return mongoTemplate.find(query,MovieBase.class);
 	}
 	

@@ -31,7 +31,6 @@ public class MovieService {
 	
 	public Object addmovie(MovieBase movie) {
 		try {
-			MovieBase m = new MovieBase();
 			movieBaseDao.insert(movie);
 			return responses.setMsg(movie);
 		}

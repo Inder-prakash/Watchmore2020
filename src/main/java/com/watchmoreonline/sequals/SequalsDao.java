@@ -7,5 +7,6 @@ public interface SequalsDao {
 	public void update(Sequals m);
 	public void delete(Sequals m);
 	public Sequals find(String id);
+	public Sequals findByBaseId(String id);
 	public List<Sequals> findAll();
 }

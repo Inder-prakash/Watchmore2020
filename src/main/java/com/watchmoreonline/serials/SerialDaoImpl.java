@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+
+import com.watchmoreonline.moviebase.MovieBase;
 
 
 @Repository("SerialDao")
@@ -34,5 +38,11 @@ public class SerialDaoImpl implements SerialDao {
 
 	public List<Serial> findAll() {
 		return (List <Serial> ) mongoTemplate.findAll(Serial.class);
+	}
+
+	@Override
+	public List<Serial> publicTv() {
+		Query query = new Query(Criteria.where("Status").is("Public"));
+        return mongoTemplate.find(query,Serial.class);
 	}
 }

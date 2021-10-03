@@ -8,5 +8,6 @@ public interface SerialDao {
 	public void delete(Serial m);
 	public Serial find(String id);
 	public List<Serial> findAll();
+	public List<Serial> publicTv();
 
 }

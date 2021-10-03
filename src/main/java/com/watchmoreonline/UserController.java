@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.watchmoreonline.services.UserService;
 import com.watchmoreonline.users.User;
 import com.watchmoreonline.users.UserDao;
 
@@ -36,11 +37,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @org.springframework.web.bind.annotation.RestController
-public class RestController {
+public class UserController {
 
 
 	@Autowired
 	UserDao udao;
+	
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping("/")
     @ResponseBody
@@ -72,38 +76,43 @@ public class RestController {
 	}
 	
 	@PostMapping("/login")
-	public JSONArray login( @RequestBody String data) {
-		JSONObject json = new JSONObject();	
-		JSONArray jrr = new JSONArray();
-		try
-		{
-			JSONParser jp = new JSONParser();		
-			JSONObject joObject = (JSONObject)jp.parse(data);
-			User u = new User();	
-			u.setEmail(joObject.get("Email").toString());
-			u = udao.find(u);	
-			if( u != null && u.getPassword().equals( joObject.get("Password").toString()))
-			{			
-				json.put("username", u.getUsername());
-				json.put("role", u.getRole());
-				json.put("status", u.getStatus());
-				json.put("msg", "Success");	
-				json.put("token",generateJwt(u.getUsername(),u.getRole(),u.getEmail()));
-				jrr.add(json);
-			}
-			else {
-				json.put("msg", "Failure");
-				jrr.add(json);
-			}
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-			json.put("msg", "Failure");
-			jrr.add(json);
-		}
-		return jrr;
+	public Object login( @RequestBody User user) {
+		return userService.login(user);
 	}
+	
+//	@PostMapping("/login")
+//	public JSONArray login( @RequestBody String data) {
+//		JSONObject json = new JSONObject();	
+//		JSONArray jrr = new JSONArray();
+//		try
+//		{
+//			JSONParser jp = new JSONParser();		
+//			JSONObject joObject = (JSONObject)jp.parse(data);
+//			User u = new User();	
+//			u.setEmail(joObject.get("Email").toString());
+//			u = udao.find(u);	
+//			if( u != null && u.getPassword().equals( joObject.get("Password").toString()))
+//			{			
+//				json.put("username", u.getUsername());
+//				json.put("role", u.getRole());
+//				json.put("status", u.getStatus());
+//				json.put("msg", "Success");	
+//				json.put("token",generateJwt(u.getUsername(),u.getRole(),u.getEmail()));
+//				jrr.add(json);
+//			}
+//			else {
+//				json.put("msg", "Failure");
+//				jrr.add(json);
+//			}
+//		}
+//		catch( Exception e )
+//		{
+//			e.printStackTrace();
+//			json.put("msg", "Failure");
+//			jrr.add(json);
+//		}
+//		return jrr;
+//	}
 	
 
 	public String generateJwt(String username,String role, String email) {

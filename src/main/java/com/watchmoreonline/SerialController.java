@@ -41,8 +41,8 @@ public class SerialController {
 		return serialService.gettv(serial);
 	}
 	
-	@GetMapping("/publictv")
-	public Object publictv() {
+	@GetMapping("/getTvByStatus")
+	public Object getTvByStatus(@RequestBody Serial serial) {
 		return serialService.publictv();
 	}
 	

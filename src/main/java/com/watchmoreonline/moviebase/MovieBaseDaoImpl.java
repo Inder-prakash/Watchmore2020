@@ -2,6 +2,7 @@ package com.watchmoreonline.moviebase;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -33,23 +34,24 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 	}
 
 	public List<MovieBase> findAll() {
-		return (List <MovieBase> ) mongoTemplate.findAll(MovieBase.class);
+		Query query = new Query().with(Sort.by(Sort.Direction.DESC,"id"));
+		return mongoTemplate.find(query,MovieBase.class);
 	}
 	
 	public List<MovieBase> movieByStatus(String status) {
-		Query query = new Query(Criteria.where("Status").is(status));
+		Query query = new Query(Criteria.where("Status").is(status)).with(Sort.by(Sort.Direction.DESC,"id"));
         return mongoTemplate.find(query,MovieBase.class);
 	}
 
 	@Override
 	public List<MovieBase> movieByCategories(String genere , String status) {
-		Query query = new Query(Criteria.where("Genere").is(genere).and("Status").is(status));
+		Query query = new Query(Criteria.where("Genere").is(genere).and("Status").is(status)).with(Sort.by(Sort.Direction.DESC,"id"));
         return mongoTemplate.find(query,MovieBase.class);
 	}
 
 	@Override
 	public List<MovieBase> movieByLanguage(String lang, String status) {
-		Query query = new Query(Criteria.where("Language").is(lang).and("Status").is(status));
+		Query query = new Query(Criteria.where("Language").is(lang).and("Status").is(status)).with(Sort.by(Sort.Direction.DESC,"id"));
         return mongoTemplate.find(query,MovieBase.class);
 	}
 	

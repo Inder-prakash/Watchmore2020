@@ -54,26 +54,31 @@ public class UserController {
     }	
 	
 	@PostMapping("/signup")
-	public String signup(@RequestBody String data) throws ParseException {
-		JSONObject json = new JSONObject();
-		JSONParser jp = new JSONParser();		
-		JSONObject joObject = (JSONObject)jp.parse(data);		
-		User u = new User();	
-		u.setEmail(joObject.get("email").toString());
-		u = udao.find(u);
-		if( u == null ) {
-			u = new User();
-			u.setEmail(joObject.get("email").toString());
-			u.setPassword(joObject.get("password").toString());
-			u.setUsername(joObject.get("username").toString());
-			udao.add(u);
-			json.put("msg", "Success");
-		}
-		else {
-			json.put("msg", "Failed");
-		}
-		return json.toJSONString();
+	public Object signup(@RequestBody User user) {
+		return userService.signup(user);
 	}
+	
+//	@PostMapping("/signup")
+//	public String signup(@RequestBody String data) throws ParseException {
+//		JSONObject json = new JSONObject();
+//		JSONParser jp = new JSONParser();		
+//		JSONObject joObject = (JSONObject)jp.parse(data);		
+//		User u = new User();	
+//		u.setEmail(joObject.get("email").toString());
+//		u = udao.find(u);
+//		if( u == null ) {
+//			u = new User();
+//			u.setEmail(joObject.get("email").toString());
+//			u.setPassword(joObject.get("password").toString());
+//			u.setUsername(joObject.get("username").toString());
+//			udao.add(u);
+//			json.put("msg", "Success");
+//		}
+//		else {
+//			json.put("msg", "Failed");
+//		}
+//		return json.toJSONString();
+//	}
 	
 	@PostMapping("/login")
 	public Object login( @RequestBody User user) {
@@ -115,59 +120,46 @@ public class UserController {
 //	}
 	
 
-	public String generateJwt(String username,String role, String email) {
-		Signer signer512 = HMACSigner.newSHA512Signer("f1e33ab3-027f-47c5-bb07-8dd8ab37a2d3");
-		JWT jwt = new JWT().setIssuer("www.watch-itv.com")
-		                   .setIssuedAt(ZonedDateTime.now(ZoneOffset.UTC))
-		                   .setSubject("HAHABABABA")
-		                   .addClaim("username",username)
-		                   .addClaim("role", role)
-		                   .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusHours(8));
-		return JWT.getEncoder().encode(jwt, signer512);
-	}
+//	@PostMapping("/userauthorization")
+//	public JSONArray userauthorization (@RequestBody String token) throws ParseException {		
+//		JSONObject json = new JSONObject();	
+//		JSONArray jrr = new JSONArray();			
+//		Verifier verifier = HMACVerifier.newVerifier("f1e33ab3-027f-47c5-bb07-8dd8ab37a2d3");
+//		try {
+//			JWT jwt2 = JWT.getDecoder().decode(token, verifier);
+//			json.put("msg", "Success");
+//			jrr.add(json);
+//		}
+//		catch (Exception e) {
+//			json.put("msg", "Failure");
+//			jrr.add(json);
+//		}	
+//		return jrr;
+//	}
 	
 	
-	
-	@PostMapping("/userauthorization")
-	public JSONArray userauthorization (@RequestBody String token) throws ParseException {		
-		JSONObject json = new JSONObject();	
-		JSONArray jrr = new JSONArray();			
-		Verifier verifier = HMACVerifier.newVerifier("f1e33ab3-027f-47c5-bb07-8dd8ab37a2d3");
-		try {
-			JWT jwt2 = JWT.getDecoder().decode(token, verifier);
-			json.put("msg", "Success");
-			jrr.add(json);
-		}
-		catch (Exception e) {
-			json.put("msg", "Failure");
-			jrr.add(json);
-		}	
-		return jrr;
-	}
-	
-	
-	@PostMapping("/adminauthorization")
-	public JSONArray adminauthorization (@RequestBody String token) throws ParseException {		
-		JSONObject json = new JSONObject();	
-		JSONArray jrr = new JSONArray();		
-		Verifier verifier = HMACVerifier.newVerifier("f1e33ab3-027f-47c5-bb07-8dd8ab37a2d3");
-		try {
-			JWT jwt2 = JWT.getDecoder().decode(token, verifier);
-			if(jwt2.getAllClaims().get("role").equals("Admin")) {
-				json.put("msg", "Success");
-				jrr.add(json);
-			}
-			else {
-				json.put("msg", "Failure");
-				jrr.add(json);
-			}
-		}
-		catch (Exception e) {
-			json.put("msg", "Failure");
-			jrr.add(json);
-		}	
-		return jrr;
-	}
+//	@PostMapping("/adminauthorization")
+//	public JSONArray adminauthorization (@RequestBody String token) throws ParseException {		
+//		JSONObject json = new JSONObject();	
+//		JSONArray jrr = new JSONArray();		
+//		Verifier verifier = HMACVerifier.newVerifier("f1e33ab3-027f-47c5-bb07-8dd8ab37a2d3");
+//		try {
+//			JWT jwt2 = JWT.getDecoder().decode(token, verifier);
+//			if(jwt2.getAllClaims().get("role").equals("Admin")) {
+//				json.put("msg", "Success");
+//				jrr.add(json);
+//			}
+//			else {
+//				json.put("msg", "Failure");
+//				jrr.add(json);
+//			}
+//		}
+//		catch (Exception e) {
+//			json.put("msg", "Failure");
+//			jrr.add(json);
+//		}	
+//		return jrr;
+//	}
 			
   }
 	

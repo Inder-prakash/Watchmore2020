@@ -68,8 +68,9 @@ public class MovieController {
 		return movieService.viewmovies();
 	}
 		
-	@GetMapping("/MovieByStatus")
-	public Object movieByStatus(@RequestBody MovieBase movie) {	
+	@PostMapping("/MovieByStatus")
+	public Object movieByStatus(@RequestBody MovieBase movie) {
+		System.out.println(movie.getStatus());
 		return movieService.movieByStatus(movie.getStatus());
 	}
 

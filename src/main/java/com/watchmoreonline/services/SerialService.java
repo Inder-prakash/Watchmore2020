@@ -26,9 +26,9 @@ public class SerialService {
 		}
 	}
 	
-	public Object viewtv() {
+	public Object viewtv(Serial serial) {
 		try {
-			return responses.setMsg(serialDao.findAll());
+			return responses.setMsg(serialDao.findAll(serial.getPage()));
 		}
 		catch (Exception e) {
 			return responses.setMsg(e.getMessage());
@@ -44,9 +44,9 @@ public class SerialService {
 		}
 	}
 	
-	public Object publictv() {
+	public Object getTvByStatus(Serial serial) {
 		try {
-			return responses.setMsg(serialDao.publicTv());
+			return responses.setMsg(serialDao.getTvByStatus(serial.getStatus(),serial.getPage()));
 		}
 		catch (Exception e) {
 			return responses.setMsg(e.getMessage());

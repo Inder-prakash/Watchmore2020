@@ -31,9 +31,9 @@ public class SerialController {
 		return serialService.addserial(serial);
 	}
 	
-	@GetMapping("/viewtv")
-	public Object viewtv() {
-		return serialService.viewtv();
+	@PostMapping("/viewtv")
+	public Object viewtv(@RequestBody Serial serial) {
+		return serialService.viewtv(serial);
 	}
 	
 	@PostMapping("/gettv")
@@ -41,9 +41,9 @@ public class SerialController {
 		return serialService.gettv(serial);
 	}
 	
-	@GetMapping("/getTvByStatus")
+	@PostMapping("/getTvByStatus")
 	public Object getTvByStatus(@RequestBody Serial serial) {
-		return serialService.publictv();
+		return serialService.getTvByStatus(serial);
 	}
 	
 	@PostMapping("/updatepisodes")

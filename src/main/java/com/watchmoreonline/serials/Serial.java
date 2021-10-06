@@ -17,8 +17,18 @@ public class Serial {
 	private String language;
 	private List<String> ename = new ArrayList<String>();
 	private List<String> elink = new ArrayList<String>();
+	private Integer page;
 	
 	
+	
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
 	public String getId() {
 		return id;
 	}

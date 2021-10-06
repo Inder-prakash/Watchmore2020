@@ -15,6 +15,17 @@ public class MovieBase {
 	private String Genere;
 	private String Discription;
 	private String Link;
+	private Integer Page;
+	
+	
+
+	public Integer getPage() {
+		return Page;
+	}
+
+	public void setPage(Integer page) {
+		Page = page;
+	}
 
 	public String getId() {
 		return id;

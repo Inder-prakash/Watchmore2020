@@ -63,25 +63,24 @@ public class MovieController {
 		return movieService.getmovie(movie);
 	}
 
-	@GetMapping("/ViewMovies")
-	public Object viewmovies() {
-		return movieService.viewmovies();
+	@PostMapping("/ViewMovies")
+	public Object viewmovies(@RequestBody MovieBase movie) {
+		return movieService.viewmovies(movie);
 	}
 		
 	@PostMapping("/MovieByStatus")
 	public Object movieByStatus(@RequestBody MovieBase movie) {
-		System.out.println(movie.getStatus());
-		return movieService.movieByStatus(movie.getStatus());
+		return movieService.movieByStatus(movie);
 	}
 
-	@GetMapping("/MovieByCategories")
+	@PostMapping("/MovieByCategories")
 	public Object movieByCategories (@RequestBody MovieBase movie) {
-		return movieService.movieByCategories(movie.getGenere(),movie.getStatus());
+		return movieService.movieByCategories(movie);
 	}
 	
-	@GetMapping("/MovieByLanguage")
+	@PostMapping("/MovieByLanguage")
 	public Object movieByLanguage (@RequestBody MovieBase movie) {
-		return movieService.movieByCategories(movie.getLanguage(),movie.getStatus());
+		return movieService.movieByCategories(movie);
 	}
 	
 	@PostMapping("/UpdateMovie")

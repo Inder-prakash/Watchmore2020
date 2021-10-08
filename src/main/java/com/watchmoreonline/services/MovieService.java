@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,30 +57,16 @@ public class MovieService {
 
 	public Object viewmovies(MovieBase movie) {
 		try {
-			return responses.setMsg(movieBaseDao.findAll(movie.getPage()));
+			return movieBaseDao.findAll(movie);
 		}
 		catch (Exception e) {
 			return responses.setMsg(e.getMessage());
 		}
 	}
 	
-//	public void paging(String pageNumber,perPage) {
-//		
-//	}
-//	function printStudents(pageNumber, nPerPage) {
-//		  print( "Page: " + pageNumber );
-//		  db.students.find()
-//		             .sort( { _id: 1 } )
-//		             .skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 )
-//		             .limit( nPerPage )
-//		             .forEach( student => {
-//		               print( student.name );
-//		             } );
-//		}
-	
 	public Object movieByStatus(MovieBase movie) {
 		try {
-			return responses.setMsg(movieBaseDao.movieByStatus(movie.getStatus(),movie.getPage()));
+			return movieBaseDao.movieByStatus(movie);
 		}
 		catch (Exception e) {
 			return responses.setMsg(e);
@@ -88,7 +75,8 @@ public class MovieService {
 	
 	public Object movieByCategories(MovieBase movie) {
 		try {
-			return responses.setMsg(movieBaseDao.movieByCategories(movie.getGenere(), movie.getStatus(),movie.getPage()));
+			List<MovieBase> m = movieBaseDao.movieByCategories(movie);
+			return responses.setMsg2(m,m.size());
 		}
 		catch (Exception e) {
 			return responses.setMsg(e);
@@ -97,7 +85,8 @@ public class MovieService {
 	
 	public Object movieByLanguage(MovieBase movie) {
 		try {
-			return responses.setMsg(movieBaseDao.movieByLanguage(movie.getLanguage(),movie.getStatus(),movie.getPage()));
+			List<MovieBase> m = movieBaseDao.movieByLanguage(movie);
+			return responses.setMsg2(m,m.size());
 		}
 		catch (Exception e) {
 			return responses.setMsg(e);

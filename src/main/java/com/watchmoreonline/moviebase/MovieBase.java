@@ -15,16 +15,15 @@ public class MovieBase {
 	private String Genere;
 	private String Discription;
 	private String Link;
-	private Integer Page;
-	
-	
+	private Integer page;
+
 
 	public Integer getPage() {
-		return Page;
+		return page;
 	}
 
 	public void setPage(Integer page) {
-		Page = page;
+		this.page = page;
 	}
 
 	public String getId() {
@@ -62,6 +61,7 @@ public class MovieBase {
 		Language = language;
 	}
 
+	
 	public String getStatus() {
 		return Status;
 	}
@@ -69,6 +69,8 @@ public class MovieBase {
 	public void setStatus(String status) {
 		Status = status;
 	}
+
+
 
 	public String getSize() {
 		return Size;
@@ -78,40 +80,32 @@ public class MovieBase {
 		Size = size;
 	}
 
-
-
 	public String getGenere() {
 		return Genere;
 	}
-
-
 
 	public void setGenere(String genere) {
 		Genere = genere;
 	}
 
-
-
 	public String getDiscription() {
 		return Discription;
 	}
-
-
 
 	public void setDiscription(String discription) {
 		Discription = discription;
 	}
 
-
-
 	public String getLink() {
 		return Link;
 	}
 
-
-
 	public void setLink(String link) {
 		Link = link;
 	}
+
+
+
+	
 	
 }

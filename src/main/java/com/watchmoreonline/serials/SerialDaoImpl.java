@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.watchmoreonline.moviebase.MovieBase;
+import com.watchmoreonline.services.Responses;
 
 
 @Repository("SerialDao")
@@ -19,6 +20,10 @@ public class SerialDaoImpl implements SerialDao {
 
 	@Autowired
 	MongoTemplate mongoTemplate;
+	
+	@Autowired
+	Responses responses;
+	
 	final int size = 10;
 	final String COLLECTION = "serials";
 
@@ -40,16 +45,20 @@ public class SerialDaoImpl implements SerialDao {
 	}
 
 	@Override
-	public List<Serial> findAll(Integer page) {
-		Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());	
-		Query query = new Query().with(pageable);
-		return mongoTemplate.find(query,Serial.class);
+	public List<Serial> findAll(Serial m) {
+		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Query query = new Query();
+		List<Serial> li = mongoTemplate.findAll(Serial.class);
+		query = new Query().with(pageable);
+		return responses.setMsg2( mongoTemplate.find(query,Serial.class), li.size());
 	}
 
 	@Override
-	public List<Serial> getTvByStatus(String status, Integer page) {
-		Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());	
-		Query query = new Query(Criteria.where("Status").is(status)).with(Sort.by(Sort.Direction.DESC,"id")).with(pageable);
-        return mongoTemplate.find(query,Serial.class);
+	public List<Serial> getTvByStatus(Serial m) {
+		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Query query = new Query(Criteria.where("Status").is(m.getStatus())).with(Sort.by(Sort.Direction.DESC,"id"));
+		List<Serial> li = mongoTemplate.find(query,Serial.class);
+		query = new Query(Criteria.where("Status").is(m.getStatus())).with(Sort.by(Sort.Direction.DESC,"id")).with(pageable);
+        return responses.setMsg2( mongoTemplate.find(query,Serial.class), li.size());
 	}
 }

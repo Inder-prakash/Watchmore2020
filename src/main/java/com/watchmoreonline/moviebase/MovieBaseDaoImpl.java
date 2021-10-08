@@ -8,7 +8,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+
+import com.watchmoreonline.services.Responses;
 
 @Repository("MovieBaseDao")
 public class MovieBaseDaoImpl implements MovieBaseDao {
@@ -16,6 +19,8 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 	@Autowired
 	MongoTemplate mongoTemplate;
 	
+	@Autowired
+	Responses responses;
 	
 	final String COLLECTION = "moviesbase";
 	final int size = 10;
@@ -36,39 +41,38 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 		return m;	 
 	}
 
-	public List<MovieBase> findAll(Integer page) {
-//		Query query = new Query().with(Sort.by(Sort.Direction.DESC,"id"));s
-//		return mongoTemplate.find(query,MovieBase.class);
-		System.out.println("Sfsfsfs");
-		Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());	
-		Query query = new Query().with(pageable);
-		return mongoTemplate.find(query,MovieBase.class);
+	public List<MovieBase> findAll(MovieBase m) {
+		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Query query = new Query().with(pageable);	
+		List<MovieBase> li = mongoTemplate.findAll(MovieBase.class);
+		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
+		
 	}
 	
-//	public List<MovieBase> FindByPage(Integer page) {
-//		Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());	
-//		Query query = new Query().with(pageable);
-//		return mongoTemplate.find(query,MovieBase.class);
-//	}
-	
-	public List<MovieBase> movieByStatus(String status,Integer page) {
-		Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());	
-		Query query = new Query(Criteria.where("Status").is(status)).with(Sort.by(Sort.Direction.DESC,"id")).with(pageable);
-        return mongoTemplate.find(query,MovieBase.class);
+	public List<MovieBase> movieByStatus(MovieBase m) {
+		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Query query = new Query(Criteria.where("Status").is(m.getStatus())).with(pageable);
+		Query query2 = new Query(Criteria.where("Status").is(m.getStatus()));
+		List<MovieBase> li = mongoTemplate.find(query2,MovieBase.class);
+        return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
 	}
 
 	@Override
-	public List<MovieBase> movieByCategories(String genere , String status,Integer page) {
-		Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());	
-		Query query = new Query(Criteria.where("Genere").is(genere).and("Status").is(status)).with(Sort.by(Sort.Direction.DESC,"id")).with(pageable);
-        return mongoTemplate.find(query,MovieBase.class);
+	public List<MovieBase> movieByCategories(MovieBase m) {
+		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Query query = new Query(Criteria.where("Genere").is(m.getGenere()).and("Status").is(m.getStatus())).with(pageable);
+		Query query2 = new Query(Criteria.where("Genere").is(m.getGenere()).and("Status").is(m.getStatus()));
+		List<MovieBase> li = mongoTemplate.find(query2,MovieBase.class);
+		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
 	}
 
 	@Override
-	public List<MovieBase> movieByLanguage(String lang, String status,Integer page) {
-		Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());	
-		Query query = new Query(Criteria.where("Language").is(lang).and("Status").is(status)).with(Sort.by(Sort.Direction.DESC,"id")).with(pageable);
-        return mongoTemplate.find(query,MovieBase.class);
+	public List<MovieBase> movieByLanguage(MovieBase m) {
+		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Query query = new Query(Criteria.where("Language").is(m.getLanguage()).and("Status").is(m.getStatus())).with(pageable);
+		Query query2 = new Query(Criteria.where("Genere").is(m.getGenere()).and("Status").is(m.getStatus()));
+		List<MovieBase> li = mongoTemplate.find(query2,MovieBase.class);
+		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.watchmoreonline.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class SerialService {
 	
 	public Object viewtv(Serial serial) {
 		try {
-			return responses.setMsg(serialDao.findAll(serial.getPage()));
+			return serialDao.findAll(serial);
 		}
 		catch (Exception e) {
 			return responses.setMsg(e.getMessage());
@@ -46,7 +48,7 @@ public class SerialService {
 	
 	public Object getTvByStatus(Serial serial) {
 		try {
-			return responses.setMsg(serialDao.getTvByStatus(serial.getStatus(),serial.getPage()));
+			return serialDao.getTvByStatus(serial);
 		}
 		catch (Exception e) {
 			return responses.setMsg(e.getMessage());

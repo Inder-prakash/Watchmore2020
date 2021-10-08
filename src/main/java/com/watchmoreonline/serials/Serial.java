@@ -19,8 +19,6 @@ public class Serial {
 	private List<String> elink = new ArrayList<String>();
 	private Integer page;
 	
-	
-	
 	public Integer getPage() {
 		return page;
 	}

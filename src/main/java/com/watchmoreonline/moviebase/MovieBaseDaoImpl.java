@@ -42,7 +42,7 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 	}
 
 	public List<MovieBase> findAll(MovieBase m) {
-		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
 		Query query = new Query().with(pageable);	
 		List<MovieBase> li = mongoTemplate.findAll(MovieBase.class);
 		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
@@ -50,7 +50,7 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 	}
 	
 	public List<MovieBase> movieByStatus(MovieBase m) {
-		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
 		Query query = new Query(Criteria.where("Status").is(m.getStatus())).with(pageable);
 		Query query2 = new Query(Criteria.where("Status").is(m.getStatus()));
 		List<MovieBase> li = mongoTemplate.find(query2,MovieBase.class);
@@ -59,7 +59,8 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 
 	@Override
 	public List<MovieBase> movieByCategories(MovieBase m) {
-		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		
+		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
 		Query query = new Query(Criteria.where("Genere").is(m.getGenere()).and("Status").is(m.getStatus())).with(pageable);
 		Query query2 = new Query(Criteria.where("Genere").is(m.getGenere()).and("Status").is(m.getStatus()));
 		List<MovieBase> li = mongoTemplate.find(query2,MovieBase.class);
@@ -68,12 +69,24 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 
 	@Override
 	public List<MovieBase> movieByLanguage(MovieBase m) {
-		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
 		Query query = new Query(Criteria.where("Language").is(m.getLanguage()).and("Status").is(m.getStatus())).with(pageable);
-		Query query2 = new Query(Criteria.where("Genere").is(m.getGenere()).and("Status").is(m.getStatus()));
+		Query query2 = new Query(Criteria.where("Language").is(m.getLanguage()).and("Status").is(m.getStatus()));
+		List<MovieBase> li = mongoTemplate.find(query2,MovieBase.class);
+		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
+	}
+
+	@Override
+	public List<MovieBase> search(Integer page ,String text) {
+		Pageable pageable = PageRequest.of(page-1, size,Sort.by("id").descending());	
+		Query query = new Query(Criteria.where("name").regex(text, "i")).with(pageable);
+		Query query2 = new Query(Criteria.where("name").regex(text, "i"));
+//		Query query = new Query(Criteria.where("name").is(t)).with(pageable);
+//		Query query2 = new Query(Criteria.where("name").is(t));
 		List<MovieBase> li = mongoTemplate.find(query2,MovieBase.class);
 		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
 	}
 	
-	
+//	MongoDB Enterprise > db.moviesbase.find({name:{'$regex' : 'Harry', '$options' : 'i'}})
+//	MongoDB Enterprise > db.moviesbase.find({name:{'$regex' : 'Harry', '$options' : 'i'}})
 }

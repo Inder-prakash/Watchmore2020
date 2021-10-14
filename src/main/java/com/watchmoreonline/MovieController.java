@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
@@ -80,7 +81,7 @@ public class MovieController {
 	
 	@PostMapping("/MovieByLanguage")
 	public Object movieByLanguage (@RequestBody MovieBase movie) {
-		return movieService.movieByCategories(movie);
+		return movieService.movieByLanguage(movie);
 	}
 	
 	@PostMapping("/UpdateMovie")
@@ -91,6 +92,14 @@ public class MovieController {
 	@PostMapping("/deleteselected")
 	public Object deleteselected(@RequestBody String[] data) {	
 		return movieService.deleteselected(data);
+	}
+	
+	@PostMapping("/search")
+	public Object search(@RequestBody String data) throws ParseException {
+		JSONParser jp = new JSONParser();		
+		JSONObject json = new JSONObject();	
+		JSONObject joObject = (JSONObject)jp.parse(data);
+		return movieService.search(Integer.parseInt(joObject.get("page").toString()),joObject.get("text").toString());
 	}
 
 }

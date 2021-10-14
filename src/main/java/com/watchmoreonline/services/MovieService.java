@@ -75,8 +75,7 @@ public class MovieService {
 	
 	public Object movieByCategories(MovieBase movie) {
 		try {
-			List<MovieBase> m = movieBaseDao.movieByCategories(movie);
-			return responses.setMsg2(m,m.size());
+			return movieBaseDao.movieByCategories(movie);
 		}
 		catch (Exception e) {
 			return responses.setMsg(e);
@@ -85,8 +84,7 @@ public class MovieService {
 	
 	public Object movieByLanguage(MovieBase movie) {
 		try {
-			List<MovieBase> m = movieBaseDao.movieByLanguage(movie);
-			return responses.setMsg2(m,m.size());
+			return movieBaseDao.movieByLanguage(movie);
 		}
 		catch (Exception e) {
 			return responses.setMsg(e);
@@ -123,6 +121,10 @@ public class MovieService {
 		catch (Exception e) {
 			return responses.setMsg(e);
 		}
+	}
+	
+	public Object search(Integer page ,String text) {
+		return movieBaseDao.search(page,text); 
 	}
 	
 //	public String upload(HttpServletRequest req , String imageUrl) {

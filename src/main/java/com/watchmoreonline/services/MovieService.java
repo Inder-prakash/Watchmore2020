@@ -30,6 +30,9 @@ public class MovieService {
 	@Autowired
 	Responses responses;
 	
+	@Autowired
+	 SerialService serialService;
+	
 	public Object addmovie(MovieBase movie) {
 		try {
 			movieBaseDao.insert(movie);
@@ -94,14 +97,27 @@ public class MovieService {
 	public Object updateMovies(MovieBase movie) {
 		try {
 			MovieBase m = movieBaseDao.find(movie.getId());
-			m.setName(movie.getName());
-			m.setImage(movie.getImage());
-			m.setLanguage(movie.getLanguage());
-			m.setLink(movie.getLink());
-			m.setSize(movie.getSize());
-			m.setStatus(movie.getStatus());
-			m.setGenere(movie.getGenere());
-			m.setDiscription(movie.getDiscription());
+			if(movie.getName() != null) {
+				m.setName(movie.getName());		
+			}
+			if(movie.getImage() != null) {
+				m.setImage(movie.getImage());
+			}					
+			if(movie.getLanguage() != null) {
+				m.setLanguage(movie.getLanguage());	
+			}
+			if(movie.getLink() != null) {
+				m.setLink(movie.getLink());
+			}
+			if(movie.getSize() != null) {
+				m.setSize(movie.getSize());
+			}
+			if(movie.getStatus() != null) {
+				m.setStatus(movie.getStatus());
+			}
+			if(movie.getGenere() != null) {
+				m.setGenere(movie.getGenere());
+			}
 			movieBaseDao.update(m);
 			return responses.setMsg(m);
 		}
@@ -123,8 +139,22 @@ public class MovieService {
 		}
 	}
 	
-	public Object search(Integer page ,String text) {
-		return movieBaseDao.search(page,text); 
+	public Object search(Integer page ,String text , String cat) {
+		if(cat.equalsIgnoreCase("movie")) {
+			return movieBaseDao.search(page,text); 
+		}
+		else {
+			return serialService.Serialsearch(page,text); 
+		}	
+	}
+	
+	public Object search2(Integer page ,String text , String cat,String admin) {
+		if(cat.equalsIgnoreCase("movie")) {
+			return movieBaseDao.search2(page,text); 
+		}
+		else {
+			return serialService.Serialsearch2(page,text); 
+		}	
 	}
 	
 //	public String upload(HttpServletRequest req , String imageUrl) {

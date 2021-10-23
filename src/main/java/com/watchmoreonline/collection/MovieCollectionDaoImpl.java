@@ -2,8 +2,14 @@ package com.watchmoreonline.collection;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+
+import com.watchmoreonline.moviebase.MovieBase;
 
 @Repository("MovieCollectionDao")
 public class MovieCollectionDaoImpl implements MovieCollectionDao {
@@ -32,7 +38,8 @@ public class MovieCollectionDaoImpl implements MovieCollectionDao {
 	}
 
 	public List<MovieCollection> findAll() {
-		return (List <MovieCollection> ) mongoTemplate.findAll(MovieCollection.class);
+		Query query = new Query().with(Sort.by(Sort.Direction.ASC,"name"));
+		return mongoTemplate.find(query,MovieCollection.class);
 	}
 
 }

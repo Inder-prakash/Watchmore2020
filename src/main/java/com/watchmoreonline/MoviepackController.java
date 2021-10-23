@@ -16,6 +16,7 @@ import com.watchmoreonline.moviebase.MovieBase;
 import com.watchmoreonline.moviebase.MovieBaseDao;
 import com.watchmoreonline.sequals.Sequals;
 import com.watchmoreonline.sequals.SequalsDao;
+import com.watchmoreonline.serials.Serial;
 import com.watchmoreonline.services.MoviePackService;
 
 @org.springframework.web.bind.annotation.RestController
@@ -31,6 +32,11 @@ public class MoviepackController {
 	SequalsDao sdao;
 	@Autowired
 	MovieBaseDao move;
+	
+	@GetMapping("/w")
+	public void w() {
+		moviePackService.find();
+	}
 	
 	@PostMapping("/newcollection")
 	public Object newcollection(@RequestBody MovieCollection movieCollection) {

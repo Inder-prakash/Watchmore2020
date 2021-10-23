@@ -1,6 +1,7 @@
 package com.watchmoreonline.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,8 @@ public class SequalsService {
 		try {
 			sequalsDao.insert(sequals);
 			MovieCollection mc = movieCollectionDao.find(sequals.getBaseid());
-			mc.setSequence(sequals.getMovieid().size());
+			System.out.println(sequals.getMovieid().length);
+			mc.setSequence(sequals.getMovieid().length);
 			movieCollectionDao.update(mc);
 			return responses.setMsg(sequals);
 		}
@@ -46,9 +48,9 @@ public class SequalsService {
 		try {
 			Sequals s = sequalsDao.findByBaseId(sequals.getBaseid());
 			if(s != null ) {
-				List<String> list = s.getMovieid();
+				String[] list = s.getMovieid();
 				List<MovieBase> li = new ArrayList<MovieBase>();
-				if(!list.isEmpty()) {			
+				if(list.length> 0) {			
 					for(String l:list) {
 						MovieBase m = movieBaseDao.find(l);
 						li.add(m);
@@ -68,11 +70,12 @@ public class SequalsService {
 	
 	public Object udatesequal(Sequals sequals) {
 		try {
+			System.out.println("sdfsdf");
 			Sequals s = sequalsDao.findByBaseId(sequals.getBaseid());
 			s.setMovieid(sequals.getMovieid());
 			sequalsDao.update(s);
 			MovieCollection mc = movieCollectionDao.find(sequals.getBaseid());
-			mc.setSequence(sequals.getMovieid().size());
+			mc.setSequence(sequals.getMovieid().length);
 			movieCollectionDao.update(mc);
 			return responses.setMsg(s);
 		}

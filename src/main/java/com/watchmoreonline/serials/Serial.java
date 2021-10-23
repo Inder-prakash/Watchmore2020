@@ -18,7 +18,18 @@ public class Serial {
 	private List<String> ename = new ArrayList<String>();
 	private List<String> elink = new ArrayList<String>();
 	private Integer page;
+	private Integer episodes;
 	
+	
+	
+	public Integer getEpisodes() {
+		return episodes;
+	}
+
+	public void setEpisodes(Integer episodes) {
+		this.episodes = episodes;
+	}
+
 	public Integer getPage() {
 		return page;
 	}

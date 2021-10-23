@@ -56,9 +56,9 @@ public class MoviePackService {
 		try {
 			Sequals s = sequalsDao.findByBaseId(movieCollection.getId());
 			if(s != null ) {
-				List<String> list = s.getMovieid();
+				String [] list = s.getMovieid();
 				List<MovieBase> li = new ArrayList<MovieBase>();
-				if(!list.isEmpty()) {			
+				if(list.length>0) {			
 					for(String l:list) {
 						MovieBase m = movieBaseDao.find(l);
 						li.add(m);
@@ -97,4 +97,16 @@ public class MoviePackService {
 			return responses.setMsg(e.getMessage());
 		}
 	}
+
+	public void find() {
+		List<MovieCollection> list = movieCollectionDao.findAll();
+		for(MovieCollection l:list) {
+			Sequals s = sequalsDao.findByBaseId(l.getId());
+			if(s != null ) {
+				l.setSequence(s.getMovieid().length);
+				movieCollectionDao.update(l);
+			}
+		}
+	}
+	
 }

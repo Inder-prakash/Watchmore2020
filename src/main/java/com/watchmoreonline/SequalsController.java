@@ -33,6 +33,7 @@ public class SequalsController {
 	
 	@PostMapping("/newsequals")
 	public Object newsequals(@RequestBody Sequals sequals) {
+		System.out.println(sequals);
 		return sequalsService.newsequals(sequals);
 	}
 	

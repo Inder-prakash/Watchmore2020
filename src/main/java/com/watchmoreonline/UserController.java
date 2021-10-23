@@ -49,13 +49,27 @@ public class UserController {
 	@RequestMapping("/")
     @ResponseBody
     String hello() {
-  
 		return "Backend is running.";
     }	
 	
 	@PostMapping("/signup")
 	public Object signup(@RequestBody User user) {
 		return userService.signup(user);
+	}
+	
+	@GetMapping("/allUsers")
+	public Object allUsers() {
+		return userService.allusers();
+	}
+	
+	@PostMapping("/deleteUser")
+	public Object deleteUser(@RequestBody User u) {
+		return userService.deleteUser(u);
+	}
+	
+	@PostMapping("/updateUser")
+	public Object updateUser(@RequestBody User u) {
+		return userService.updateUser(u);
 	}
 	
 //	@PostMapping("/signup")

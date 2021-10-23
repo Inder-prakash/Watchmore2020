@@ -18,6 +18,16 @@ public class SerialService {
 	SerialDao serialDao;
 	
 	
+	public void countep() {
+		List<Serial> s = serialDao.findAll();
+		for(Serial ss:s) {
+			List<String> li = ss.getElink();
+			ss.setEpisodes(li.size());
+			serialDao.update(ss);
+		}
+	}
+
+	
 	public Object addserial(Serial serial) {
 		try {
 			serialDao.insert(serial);
@@ -71,10 +81,18 @@ public class SerialService {
 	public Object updatetv(Serial serial) {
 		try {
 			Serial s = serialDao.find(serial.getId());
-			s.setName(serial.getName());
-			s.setImage(serial.getImage());
-			s.setStatus(serial.getStatus());
-			s.setLanguage(serial.getLanguage());
+			if(serial.getName() != null) {
+				s.setName(serial.getName());
+			}
+			if(serial.getImage() != null) {
+				s.setImage(serial.getImage());
+			}
+			if(serial.getStatus() != null ) {
+				s.setStatus(serial.getStatus());
+			}
+			if(serial.getLanguage() != null ) {
+				s.setLanguage(serial.getLanguage());
+			}
 			serialDao.update(s);
 			return responses.setMsg(s);
 		}
@@ -93,4 +111,12 @@ public class SerialService {
 			return responses.setMsg(e.getMessage());
 		}
 	}
+	
+	public Object Serialsearch(Integer page ,String text) {
+			return serialDao.search(page,text); 
+	}
+	public Object Serialsearch2(Integer page ,String text) {
+		return serialDao.search2(page,text); 
+	}
+
 }

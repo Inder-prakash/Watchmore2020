@@ -54,7 +54,7 @@ public class MovieController {
 	@Autowired
 	MovieService movieService;
 	
-	@PostMapping("/AddMoive")
+	@PostMapping("/AddMovie")
 	public Object addmovie(@RequestBody MovieBase movie) {
 		return movieService.addmovie(movie);
 	}
@@ -99,7 +99,16 @@ public class MovieController {
 		JSONParser jp = new JSONParser();		
 		JSONObject json = new JSONObject();	
 		JSONObject joObject = (JSONObject)jp.parse(data);
-		return movieService.search(Integer.parseInt(joObject.get("page").toString()),joObject.get("text").toString());
+		if(joObject.get("admin").toString().equalsIgnoreCase("1") ){
+			return movieService.search2(Integer.parseInt(joObject.get("page").toString()),
+					joObject.get("text").toString(),
+					joObject.get("cat").toString(),joObject.get("admin").toString());
+		}
+		else {
+			return movieService.search(Integer.parseInt(joObject.get("page").toString()),
+					joObject.get("text").toString(),
+					joObject.get("cat").toString());			
+		}
 	}
 
 }

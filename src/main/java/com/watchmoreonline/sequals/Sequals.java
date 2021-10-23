@@ -12,7 +12,7 @@ public class Sequals {
 	@Id
 	private String id;
 	private String baseid;
-	private List<String> movieid = new ArrayList<String>();
+	private String [] movieid;
 	public String getId() {
 		return id;
 	}
@@ -26,10 +26,10 @@ public class Sequals {
 		this.baseid = baseid;
 	}
 	
-	public List<String> getMovieid() {
+	public String [] getMovieid() {
 		return movieid;
 	}
-	public void setMovieid(List<String> movieid) {
+	public void setMovieid(String []movieid) {
 		this.movieid = movieid;
 	}
 	public Sequals() {

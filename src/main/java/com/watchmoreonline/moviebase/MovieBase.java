@@ -13,7 +13,6 @@ public class MovieBase {
 	private String Status;
 	private String Size;
 	private String Genere;
-	private String Discription;
 	private String Link;
 	private Integer page;
 
@@ -86,14 +85,6 @@ public class MovieBase {
 
 	public void setGenere(String genere) {
 		Genere = genere;
-	}
-
-	public String getDiscription() {
-		return Discription;
-	}
-
-	public void setDiscription(String discription) {
-		Discription = discription;
 	}
 
 	public String getLink() {

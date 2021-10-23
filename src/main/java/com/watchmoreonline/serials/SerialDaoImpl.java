@@ -24,7 +24,7 @@ public class SerialDaoImpl implements SerialDao {
 	@Autowired
 	Responses responses;
 	
-	final int size = 10;
+	final int size = 30;
 	final String COLLECTION = "serials";
 
 	public void insert(Serial m) {
@@ -46,7 +46,7 @@ public class SerialDaoImpl implements SerialDao {
 
 	@Override
 	public List<Serial> findAll(Serial m) {
-		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
+		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
 		Query query = new Query();
 		List<Serial> li = mongoTemplate.findAll(Serial.class);
 		query = new Query().with(pageable);
@@ -55,10 +55,34 @@ public class SerialDaoImpl implements SerialDao {
 
 	@Override
 	public List<Serial> getTvByStatus(Serial m) {
-		Pageable pageable = PageRequest.of(m.getPage(), size,Sort.by("id").descending());	
-		Query query = new Query(Criteria.where("Status").is(m.getStatus())).with(Sort.by(Sort.Direction.DESC,"id"));
-		List<Serial> li = mongoTemplate.find(query,Serial.class);
-		query = new Query(Criteria.where("Status").is(m.getStatus())).with(Sort.by(Sort.Direction.DESC,"id")).with(pageable);
+		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
+		Query query2 = new Query(Criteria.where("Status").is(m.getStatus())).with(Sort.by(Sort.Direction.DESC,"id"));		
+		Query query = new Query(Criteria.where("Status").is(m.getStatus())).with(Sort.by(Sort.Direction.DESC,"id")).with(pageable);
+		List<Serial> li = mongoTemplate.find(query2,Serial.class);
         return responses.setMsg2( mongoTemplate.find(query,Serial.class), li.size());
 	}
+
+	@Override
+	public List<Serial> search(Integer page, String text) {
+		Pageable pageable = PageRequest.of(page-1, size,Sort.by("id").descending());	
+		Query query = new Query(Criteria.where("name").regex(text, "i").and("Status").is("Public") ).with(pageable);
+		Query query2 = new Query(Criteria.where("name").regex(text, "i").and("Status").is("Public") );
+		List<Serial> li = mongoTemplate.find(query2,Serial.class);
+		return responses.setMsg2(mongoTemplate.find(query,Serial.class),li.size());
+	}
+
+	@Override
+	public List<Serial> search2(Integer page, String text) {
+		Pageable pageable = PageRequest.of(page-1, size,Sort.by("id").descending());	
+		Query query = new Query(Criteria.where("name").regex(text, "i")).with(pageable);
+		Query query2 = new Query(Criteria.where("name").regex(text, "i"));
+		List<Serial> li = mongoTemplate.find(query2,Serial.class);
+		return responses.setMsg2(mongoTemplate.find(query,Serial.class),li.size());
+	}
+
+	@Override
+	public List<Serial> findAll() {
+		return mongoTemplate.findAll(Serial.class);
+	}
+
 }

@@ -26,7 +26,7 @@ public class UserService {
 		System.out.println(user.getEmail()+" ============ "+user.getPassword());
 		User u = userDao.findByPassword(user.getEmail(),user.getPassword());
 		if(u!=null) {
-			return responses.setMsg(generateJwt(user.getPassword(), user.getEmail()));
+			return responses.setMsg(u);
 		}
 		else {
 			return responses.setMsg("UserName And Password not match");
@@ -36,9 +36,11 @@ public class UserService {
 	public Object signup(User user) {
 		User u = userDao.checkByEmail(user.getEmail());
 		if(u!=null) {
-			return responses.setMsg("User Already Exists");
+			return responses.setMsg("error");
 		}
 		else {
+			user.setStatus("false");
+			user.setRole("User");
 			userDao.insert(user);
 			return responses.setMsg(user);
 		}
@@ -54,4 +56,44 @@ public class UserService {
 		                   .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusHours(8));
 		return JWT.getEncoder().encode(jwt, signer512);
 	}
+
+	public Object allusers() {
+		try {
+			return responses.setMsg(userDao.findall());
+		}
+		catch (Exception e) {
+			return responses.setMsg(e.getMessage());
+		}
+	}
+
+	public Object deleteUser(User u) {
+		try {			
+			User us = userDao.findById(u.getId());
+			userDao.delete(us);
+			return responses.setMsg("User Deleted");
+		}
+		catch (Exception e) {
+			return responses.setMsg(e.getMessage());
+		}
+	}
+	
+	public Object updateUser(User u) {
+		try {
+			User user = userDao.findById(u.getId());
+			if(u.getRole() != null ) {
+				user.setRole( u.getRole());
+			}
+			if(u.getStatus() != null ) {
+				user.setStatus(u.getStatus());
+			}
+			userDao.update(user);
+			return responses.setMsg(user);
+		}
+		catch (Exception e) {
+			return responses.setMsg(e.getMessage());
+		}
+	}
+	
+
+	
 }

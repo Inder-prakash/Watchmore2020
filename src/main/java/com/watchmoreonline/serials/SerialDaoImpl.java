@@ -46,7 +46,7 @@ public class SerialDaoImpl implements SerialDao {
 
 	@Override
 	public List<Serial> findAll(Serial m) {
-		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
+		Pageable pageable = PageRequest.of(m.getPage()-1, 10,Sort.by("id").descending());	
 		Query query = new Query();
 		List<Serial> li = mongoTemplate.findAll(Serial.class);
 		query = new Query().with(pageable);

@@ -44,7 +44,7 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 	}
 	
 	public List<MovieBase> findAll(MovieBase m) {
-		Pageable pageable = PageRequest.of(m.getPage()-1, size,Sort.by("id").descending());	
+		Pageable pageable = PageRequest.of(m.getPage()-1, 10,Sort.by("id").descending());	
 		Query query = new Query().with(pageable);	
 		List<MovieBase> li = mongoTemplate.findAll(MovieBase.class);
 		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());

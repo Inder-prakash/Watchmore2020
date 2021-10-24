@@ -26,10 +26,10 @@ public class SerialController {
 	@Autowired
 	SerialService serialService;
 	
-	@GetMapping("/ff")
-	public void countep() {
-		serialService.countep();
-	}
+//	@GetMapping("/ff")
+//	public void countep() {
+//		serialService.countep();
+//	}
 	
 	@PostMapping("/addserial")
 	public Object addserial(@RequestBody Serial serial ) {

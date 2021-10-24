@@ -33,10 +33,10 @@ public class MoviepackController {
 	@Autowired
 	MovieBaseDao move;
 	
-	@GetMapping("/w")
-	public void w() {
-		moviePackService.find();
-	}
+//	@GetMapping("/w")
+//	public void w() {
+//		moviePackService.find();
+//	}
 	
 	@PostMapping("/newcollection")
 	public Object newcollection(@RequestBody MovieCollection movieCollection) {

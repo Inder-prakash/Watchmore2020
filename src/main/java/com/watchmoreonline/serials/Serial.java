@@ -17,26 +17,38 @@ public class Serial {
 	private String language;
 	private List<String> ename = new ArrayList<String>();
 	private List<String> elink = new ArrayList<String>();
+	private Integer page;
+	private Integer episodes;
 	
 	
 	
+	public Integer getEpisodes() {
+		return episodes;
+	}
+
+	public void setEpisodes(Integer episodes) {
+		this.episodes = episodes;
+	}
+
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
 	public String getId() {
 		return id;
 	}
-
-
-
+	
 	public void setId(String id) {
 		this.id = id;
 	}
 
-
-
 	public String getName() {
 		return name;
 	}
-
-
 
 	public void setName(String name) {
 		this.name = name;

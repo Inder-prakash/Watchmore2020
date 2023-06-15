@@ -16,11 +16,15 @@ import com.watchmoreonline.moviebase.MovieBase;
 import com.watchmoreonline.moviebase.MovieBaseDao;
 import com.watchmoreonline.sequals.Sequals;
 import com.watchmoreonline.sequals.SequalsDao;
+import com.watchmoreonline.services.SequalsService;
 
 @org.springframework.web.bind.annotation.RestController
 public class SequalsController {
 
 
+	@Autowired
+	SequalsService sequalsService;
+	
 	@Autowired
 	SequalsDao sdao;
 
@@ -28,82 +32,19 @@ public class SequalsController {
 	MovieBaseDao mov;
 	
 	@PostMapping("/newsequals")
-	public String newsequals(@RequestBody String data ) throws ParseException {
-		JSONParser jp = new JSONParser();		
-		JSONObject joObject = (JSONObject)jp.parse(data);
-		JSONObject json = new JSONObject();
-		JSONArray ja = (JSONArray)jp.parse(joObject.get("seuals").toString());		
-		Sequals s = new Sequals();
-		s.setBaseid(joObject.get("Baseid").toString());
-		List<String> squalsname = s.getMovieid();
-		for(int i = 0; i < ja.size() ;i++) {
-			json = (JSONObject) jp.parse(ja.get(i).toString());
-			squalsname.add(json.get("name").toString());
-	    }	
-		s.setMovieid(squalsname);
-		sdao.insert(s);
-		json.put("msg", "done");
-		return json.toJSONString();
+	public Object newsequals(@RequestBody Sequals sequals) {
+		System.out.println(sequals);
+		return sequalsService.newsequals(sequals);
 	}
 	
 	@PostMapping("/getsequals")
-	public JSONArray getsequals(@RequestBody String data) {	
-		JSONArray jarr = new JSONArray();
-		JSONObject job = new JSONObject();	
-		MovieBase m = new MovieBase();
-		Sequals s = sdao.find(data);
-		if(s != null) {
-		List<String> moviename = s.getMovieid();
-			for(String ms:moviename) {
-				job = new JSONObject();			
-				job.put("id",ms);	
-				m = mov.find(ms);
-				if(m != null) {
-					job.put("name", m.getName());
-					job.put("image", m.getImage());
-				}
-
-				jarr.add(job);	
-			}
-		}	
-		return jarr;	
+	public Object getsequals(@RequestBody Sequals sequals) {
+		return sequalsService.getsequals(sequals);
 	}
 	
-
 	@PostMapping("/udatesequal")
-	public String udatesequal(@RequestBody String data ) throws ParseException {
-		JSONParser jp = new JSONParser();		
-		JSONObject joObject = (JSONObject)jp.parse(data);
-		JSONObject json = new JSONObject();	
-		JSONArray ja = (JSONArray)jp.parse(joObject.get("seuals").toString());		
-		Sequals s = sdao.find(joObject.get("Baseid").toString());
-		if(s != null) {
-			List<String> squalsname = new ArrayList<String>();
-			for(int i = 0; i < ja.size() ;i++) {
-				json = (JSONObject) jp.parse(ja.get(i).toString());
-				squalsname.add(json.get("id").toString());
-		    }
-			s.setMovieid(squalsname);
-			sdao.update(s);
-		}
-		else {
-			s = new Sequals();
-			s.setBaseid(joObject.get("Baseid").toString());
-			List<String> squalsname = s.getMovieid();
-			for(int i = 0; i < ja.size() ;i++) {
-				json = (JSONObject) jp.parse(ja.get(i).toString());
-				squalsname.add(json.get("id").toString());
-		    }	
-			s.setMovieid(squalsname);
-			sdao.insert(s);
-		}
-		
-		
-		json.put("msg", "done");
-		return json.toJSONString();
+	public Object udatesequal(@RequestBody Sequals sequals) {
+		return sequalsService.udatesequal(sequals);
 	}
-	
-	
-	
-	
+
 }

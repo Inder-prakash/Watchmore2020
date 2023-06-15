@@ -9,6 +9,8 @@ public class MovieCollection {
 	@Id
 	private String id;
 	private String name;
+	private Integer sequence = 0;
+	
 	public String getId() {
 		return id;
 	}
@@ -23,6 +25,12 @@ public class MovieCollection {
 	}
 	public MovieCollection() {
 		super();
+	}
+	public Integer getSequence() {
+		return sequence;
+	}
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
 	}
 	
 	

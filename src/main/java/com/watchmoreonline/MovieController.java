@@ -28,14 +28,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.watchmoreonline.moviebase.MovieBase;
 import com.watchmoreonline.moviebase.MovieBaseDao;
+import com.watchmoreonline.services.MovieService;
 import com.watchmoreonline.users.User;
 import com.watchmoreonline.users.UserDao;
+
+import springfox.documentation.spring.web.json.Json;
 
 @org.springframework.web.bind.annotation.RestController
 public class MovieController {
@@ -47,280 +51,64 @@ public class MovieController {
 	@Autowired
 	UserDao udao;
 	
-	public String upload(HttpServletRequest req , String imageUrl) {
-		try {
-			String path2 = req.getRealPath("/");
-			String path = path2+"temp.jpg";
-			saveImage(imageUrl, path);
-			Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                  	"cloud_name", "df3btb7v4",
-                 	"api_key", "144397625466591",
-                 	"api_secret", "_auyDn69x8adsIwxVwMRrljcx0U"));
-			File f = new File(path);
-			Map uploadResult = cloudinary.uploader().upload(f,ObjectUtils.emptyMap());
-			return uploadResult.get("secure_url").toString();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return "Failed";
-		}
-		
-	}
-	
-	
-	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
-		URL url = new URL(imageUrl);
-		InputStream is = url.openStream();
-		OutputStream os = new FileOutputStream(destinationFile);
-		byte[] b = new byte[2048];
-		int length;
-		while ((length = is.read(b)) != -1) {
-			os.write(b, 0, length);
-		}
-		is.close();
-		os.close();
-	}
-	
+	@Autowired
+	MovieService movieService;
 	
 	@PostMapping("/AddMovie")
-	public String addmovie(HttpServletRequest req ,@RequestBody String data) throws ParseException {
-		JSONParser jp = new JSONParser();		
-		JSONObject json = new JSONObject();	
-			JSONObject joObject = (JSONObject)jp.parse(data);	
-			MovieBase m = new MovieBase();
-			m.setName(joObject.get("Name").toString());
-			m.setImage(upload(req, joObject.get("Image").toString()));
-			m.setLanguage(joObject.get("Language").toString());
-			m.setLink(joObject.get("Link").toString());
-			m.setSize(joObject.get("Size").toString());
-			m.setStatus(joObject.get("Status").toString());
-			m.setGenere(joObject.get("Genere").toString());
-			m.setDiscription(joObject.get("Discription").toString());
-			mbd.insert(m);
-			json.put("msg","Data Saved");
-			return json.toJSONString();	
+	public Object addmovie(@RequestBody MovieBase movie) {
+		return movieService.addmovie(movie);
 	}
 	
-	@PostMapping("/getmovie") 
-	public JSONArray getmovie(@RequestBody String data) throws ParseException {	
-		JSONArray jarr = new JSONArray();
-		JSONObject job = new JSONObject();	
-		JSONParser jp = new JSONParser();		
-		MovieBase m = mbd.find(data);
-		job.put("Id",m.getId());		
-		job.put("Name",m.getName());
-		job.put("Image",m.getImage());
-		job.put("Language",m.getLanguage());
-		job.put("Status",m.getStatus());
-		job.put("Link",m.getLink());
-		job.put("Discription",m.getDiscription());
-		job.put("Genere",m.getGenere());
-		job.put("Size",m.getSize());
-		jarr.add(job);
-		return jarr;	
+	@PostMapping("/getmovie")
+	public Object getmovie(@RequestBody MovieBase movie) {
+		return movieService.getmovie(movie);
 	}
-	
-	@GetMapping("/ViewMovies")
-	public JSONArray ViewMovies() throws IOException {	
-		JSONArray jarr = new JSONArray();
-			for(MovieBase m : mbd.findAll()) {	
-				JSONObject job = new JSONObject();	
-				job.put("Id",m.getId());		
-				job.put("Name",m.getName());
-				job.put("Image",m.getImage());
-				job.put("Language",m.getLanguage());
-				job.put("Status",m.getStatus());
-				job.put("Link",m.getLink());
-				job.put("Discription",m.getDiscription());
-				job.put("Genere",m.getGenere());
-				job.put("Size",m.getSize());
-//				saveImage(m.getImage(), "E:\\Movies\\"+job.put("Id",m.getId())+".jpg");
-				System.out.println();
-				jarr.add(job);
-			}	 	
-			return jarr;
-	}
-	
-	@GetMapping("/PublicMovies")
-	public JSONArray PublicMovies() {	
-		JSONArray jarr = new JSONArray();
-		for(MovieBase m : mbd.findAll()) {	
-			if(m.getStatus().equals("Public")) {
-				JSONObject job = new JSONObject();	
-				job.put("Id",m.getId());		
-				job.put("Name",m.getName());
-				job.put("Image",m.getImage());
-				job.put("Language",m.getLanguage());
-				job.put("Status",m.getStatus());
-				job.put("Link",m.getLink());
-				job.put("Discription",m.getDiscription());
-				job.put("Genere",m.getGenere());
-				job.put("Size",m.getSize());
-				jarr.add(job);
-			}
-		}	 	
-		return jarr;
-	}
-	
-	
 
-	public JSONArray getingmovies (String Status , String Language) {
-		JSONArray jarr = new JSONArray();
-		for(MovieBase m : mbd.findAll()) {	
-			if(m.getStatus().equals(Status) && m.getLanguage().equals(Language)) {
-				JSONObject job = new JSONObject();	
-				job.put("Id",m.getId());		
-				job.put("Name",m.getName());
-				job.put("Image",m.getImage());
-				job.put("Language",m.getLanguage());
-				job.put("Status",m.getStatus());
-				job.put("Link",m.getLink());
-				job.put("Discription",m.getDiscription());
-				job.put("Genere",m.getGenere());
-				job.put("Size",m.getSize());
-				jarr.add(job);
-			}
-		}
-		return jarr;
+	@PostMapping("/ViewMovies")
+	public Object viewmovies(@RequestBody MovieBase movie) {
+		return movieService.viewmovies(movie);
+	}
+		
+	@PostMapping("/MovieByStatus")
+	public Object movieByStatus(@RequestBody MovieBase movie) {
+		return movieService.movieByStatus(movie);
+	}
+
+	@PostMapping("/MovieByCategories")
+	public Object movieByCategories (@RequestBody MovieBase movie) {
+		return movieService.movieByCategories(movie);
 	}
 	
-	public JSONArray getingmoviesbycat (String Status , String Genere) {
-		JSONArray jarr = new JSONArray();
-		for(MovieBase m : mbd.findAll()) {	
-			if(m.getStatus().equals(Status) && m.getGenere().equals(Genere)) {
-				JSONObject job = new JSONObject();	
-				job.put("Id",m.getId());		
-				job.put("Name",m.getName());
-				job.put("Image",m.getImage());
-				job.put("Language",m.getLanguage());
-				job.put("Status",m.getStatus());
-				job.put("Link",m.getLink());
-				job.put("Discription",m.getDiscription());
-				job.put("Genere",m.getGenere());
-				job.put("Size",m.getSize());
-				jarr.add(job);
-			}
-		}
-		return jarr;
-	}
-	
-	@GetMapping("/hindiMovies")
-	public JSONArray hindiMovies() {	
-		return getingmovies("Public","Hindi");
-	}
-	
-	@GetMapping("/englishMovies")
-	public JSONArray englishMovies() {	
-		return getingmovies("Public","English");
-	}
-	
-	@GetMapping("/CrimeMovies")
-	public JSONArray CrimeMovies() {	
-		return getingmoviesbycat("Public","Crime");
-	}
-	
-	@GetMapping("/ComedyMovies")
-	public JSONArray ComedyMovies() {	
-		return getingmoviesbycat("Public","Comedy");
-	}
-	
-	@GetMapping("/SciFiMovies")
-	public JSONArray SciFiMovies() {	
-		return getingmoviesbycat("Public","Sci-Fi");
-	}
-	
-	@GetMapping("/HorrorMovies")
-	public JSONArray HorrorMovies() {	
-		return getingmoviesbycat("Public","Horror");
-	}
-	
-	@GetMapping("/RomanceMovies")
-	public JSONArray RomanceMovies() {	
-		return getingmoviesbycat("Public","Romance");
-	}
-	
-	@GetMapping("/ActionMovies")
-	public JSONArray ActionMovies() {	
-		return getingmoviesbycat("Public","Action");
-	}
-	
-	@GetMapping("/DramaMovies")
-	public JSONArray DramaMovies() {	
-		return getingmoviesbycat("Public","Drama");
-	}
-	
-	@GetMapping("/AnimationMovies")
-	public JSONArray AnimationMovies() {	
-		return getingmoviesbycat("Public","Animation");
-	}
-	
-	@GetMapping("/AdventureMovies")
-	public JSONArray AdventureMovies() {	
-		return getingmoviesbycat("Public","Adventure");
-	}
-	
-	@GetMapping("/PrivateMovies")
-	public JSONArray PrivateMovies() {	
-		JSONArray jarr = new JSONArray();
-		for(MovieBase m : mbd.findAll()) {	
-			if(m.getStatus().equals("Private")) {
-				JSONObject job = new JSONObject();	
-				job.put("Id",m.getId());		
-				job.put("Name",m.getName());
-				job.put("Image",m.getImage());
-				job.put("Language",m.getLanguage());
-				job.put("Status",m.getStatus());
-				job.put("Link",m.getLink());
-				job.put("Discription",m.getDiscription());
-				job.put("Genere",m.getGenere());
-				job.put("Size",m.getSize());
-				jarr.add(job);
-			}
-		}	 	
-		return jarr;
+	@PostMapping("/MovieByLanguage")
+	public Object movieByLanguage (@RequestBody MovieBase movie) {
+		return movieService.movieByLanguage(movie);
 	}
 	
 	@PostMapping("/UpdateMovie")
-	public String UpdateMovie(@RequestBody String data) throws ParseException {	
-		JSONObject json = new JSONObject();	
-		JSONParser jp = new JSONParser();		
-		JSONObject joObject = (JSONObject)jp.parse(data);
-		MovieBase m = mbd.find(joObject.get("Id").toString());	
-		m.setName(joObject.get("Name").toString());
-		m.setImage(joObject.get("Image").toString());
-		m.setLanguage(joObject.get("Language").toString());
-		m.setLink(joObject.get("Link").toString());
-		m.setSize(joObject.get("Size").toString());
-		m.setStatus(joObject.get("Status").toString());
-		m.setGenere(joObject.get("Genere").toString());
-		m.setDiscription(joObject.get("Discription").toString());
-		mbd.update(m);
-		json.put("msg","Data Update");
-		return json.toJSONString();		
+	public Object UpdateMovie(@RequestBody MovieBase movie) {
+		return movieService.updateMovies(movie);
 	}
-	
 	
 	@PostMapping("/deleteselected")
-	public  String deleteselected(@RequestBody String[] data) throws ParseException {	
-		JSONObject json = new JSONObject();	
-		
-		for(String d:data) {
-			MovieBase m = mbd.find(d);
-			mbd.delete(m);
-		}
-		
-		json.put("msg","Data Deleted");
-		return json.toJSONString();
+	public Object deleteselected(@RequestBody String[] data) {	
+		return movieService.deleteselected(data);
 	}
 	
-	@PostMapping("/DeleteMovie")
-	public  String DeleteMovie(@RequestBody String data) throws ParseException {	
-		JSONObject json = new JSONObject();	
+	@PostMapping("/search")
+	public Object search(@RequestBody String data) throws ParseException {
 		JSONParser jp = new JSONParser();		
+		JSONObject json = new JSONObject();	
 		JSONObject joObject = (JSONObject)jp.parse(data);
-		MovieBase m = mbd.find(joObject.get("Id").toString());
-		mbd.delete(m);
-		json.put("msg","Data Deleted");
-		return json.toJSONString();
+		if(joObject.get("admin").toString().equalsIgnoreCase("1") ){
+			return movieService.search2(Integer.parseInt(joObject.get("page").toString()),
+					joObject.get("text").toString(),
+					joObject.get("cat").toString(),joObject.get("admin").toString());
+		}
+		else {
+			return movieService.search(Integer.parseInt(joObject.get("page").toString()),
+					joObject.get("text").toString(),
+					joObject.get("cat").toString());			
+		}
 	}
+
 }

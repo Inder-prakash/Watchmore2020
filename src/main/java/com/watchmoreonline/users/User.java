@@ -13,8 +13,8 @@ public class User {
 	private String username;
 	private String email;
 	private String password;
-	private String status = "false";
-	private String role = "User";
+	private String status;
+	private String role;
 	
 	public String getId() {
 		return id;

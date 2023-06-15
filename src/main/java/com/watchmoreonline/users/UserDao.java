@@ -1,8 +1,13 @@
 package com.watchmoreonline.users;
 
+import java.util.List;
+
 public interface UserDao {
-	public User find(User User);
-	public void add(User User);
-	public void delet(User User);
+	public void insert(User User);
+	public void delete(User User);
 	public void update(User User);
+	public User checkByEmail(String email);
+	public User findByPassword(String email, String password);
+	public User findById(String id);
+	public List<User> findall();
 }

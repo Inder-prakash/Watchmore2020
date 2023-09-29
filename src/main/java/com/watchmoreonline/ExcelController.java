@@ -66,7 +66,7 @@ public class ExcelController {
 	}
 	
 	@PostMapping("/uploadEpisodeByExcel")
-	public Object uploadEpisodeByExcel ( @RequestBody MultipartFile file  ,String id , HttpServletRequest req) throws IOException {
+	public Object uploadEpisodeByExcel ( @RequestPart("file") MultipartFile file  ,String id , HttpServletRequest req) throws IOException {
 	    try{
 			Serial s = serialDao.find(id) ;
 			List<String>names = new ArrayList<String>();
@@ -115,6 +115,8 @@ public class ExcelController {
             }      
             s.setEname(names);
             s.setElink(episodes);
+            List<String> l = s.getElink();
+            s.setEpisodes(l.size());
             serialDao.update(s);
             return responses.setMsg(s);
         }
@@ -139,4 +141,5 @@ public class ExcelController {
         UserExcelExporter excelExporter = new UserExcelExporter(names,links);
         excelExporter.export(response); 
     }
+    
 }

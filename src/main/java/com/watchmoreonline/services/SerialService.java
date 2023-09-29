@@ -70,6 +70,8 @@ public class SerialService {
 			Serial s = serialDao.find(serial.getId());
 			s.setElink(serial.getElink());
 			s.setEname(serial.getEname());
+			List<String> li = s.getElink();
+			s.setEpisodes(li.size());
 			serialDao.update(s);
 			return responses.setMsg(s);
 		}

@@ -15,4 +15,5 @@ public interface MovieBaseDao {
 	public List<MovieBase> movieByLanguage(MovieBase m);
 	public List<MovieBase> search(Integer page,String text);
 	public List<MovieBase> search2(Integer page,String text);
+	public List<MovieBase> getAllMovies();
 }

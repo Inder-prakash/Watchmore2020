@@ -54,6 +54,10 @@ public class MovieController {
 	@Autowired
 	MovieService movieService;
 	
+	@Autowired
+	MovieBaseDao movieBaseDao;
+
+	
 	@PostMapping("/AddMovie")
 	public Object addmovie(@RequestBody MovieBase movie) {
 		return movieService.addmovie(movie);
@@ -110,5 +114,71 @@ public class MovieController {
 					joObject.get("cat").toString());			
 		}
 	}
+	
+	@PostMapping("/ViewMoviesV@")
+	public Object viewmoviesV2() {
+		List<MovieBase> mm= movieService.getallMovies();
+		int q = 0;
+		int mb = 0;
+		int gb = 0;
+		int GB = 0;
+		int MB = 0;
+		int Gb = 0;
+		int Mb = 0;
+		int nb = 0;
+		int BadData = 0;
+		int r = 0;
+		int c = 0;
+		for(MovieBase m:mm) {
+			System.out.println(m.getRes());
+//			if(m.getSize().contains("GB")) {
+//				GB++;
+//				m.setSize(m.getSize().replace("GB", "").trim());
+//				Float size = Float.parseFloat(m.getSize());
+//				if(size == 1 ) {
+//					
+//				}
+//				System.out.println(">>>>>>>>>>>>> "+m.getSize());
+//				System.out.println(">>>>>>>>>>>>> "+m.getSize());
+//				m.setSize(m.getSize()+" GB");
+//				movieBaseDao.update(m);
+//				System.out.println(">>>>>>>>>>>>>Improve "+m.getSize());
+//			}
+//			else if(m.getSize().contains("MB")) {
+//				MB++;
+//				if(!m.getName().contains("720p")) {
+////					System.out.println(">>>>>>>>>>>>> "+m.getName());
+//					m.setName(m.getName()+" 720p");
+//					System.out.println(">>>>>>>>>>>>>Improve "+m.getName());
+//					movieBaseDao.update(m);
+//				}
+//			}
+
+			if(m.getName().contains("1080p")) {
+				c++;
+//				m.setRes("1080p");
+//				movieBaseDao.update(m);
+			}else if(m.getName().contains("720p")) {
+//				m.setRes("720p");
+//				movieBaseDao.update(m);
+				r++;
+			}
+			else {
+//				m.setName(m.getName()+" 720p");
+//				System.out.println(">>>>>>>>>>>>> "+m.getSize()+" "+m.getName());
+//				movieBaseDao.update(m);
+//				System.out.println(">>>>>>>>>>>>> "+m.getSize()+" "+m.getName());
+				BadData++;
+			}
+			q++;
+			System.out.println("COUNT "+q);
+		}
+		System.out.println("TOTAL COUNT "+q);
+		System.out.println("TOTAL COUNT 720 "+r);
+		System.out.println("TOTAL COUNT 1080 "+c);
+		System.out.println("TOTAL COUNT BadData "+BadData);
+		return "g";
+	}
+
 
 }

@@ -118,6 +118,9 @@ public class MovieService {
 			if(movie.getGenere() != null) {
 				m.setGenere(movie.getGenere());
 			}
+			if(movie.getRes() != null) {
+				m.setRes(movie.getRes());
+			}
 			movieBaseDao.update(m);
 			return responses.setMsg(m);
 		}
@@ -156,6 +159,11 @@ public class MovieService {
 			return serialService.Serialsearch2(page,text); 
 		}	
 	}
+
+	public List<MovieBase> getallMovies() {
+		 return movieBaseDao.getAllMovies();
+	}
+
 	
 //	public String upload(HttpServletRequest req , String imageUrl) {
 //		try {

@@ -15,6 +15,7 @@ public class MovieBase {
 	private String Genere;
 	private String Link;
 	private Integer page;
+	private String res;
 
 
 	public Integer getPage() {
@@ -95,6 +96,15 @@ public class MovieBase {
 		Link = link;
 	}
 
+	public String getRes() {
+		return res;
+	}
+
+	public void setRes(String res) {
+		this.res = res;
+	}
+
+	
 
 
 	

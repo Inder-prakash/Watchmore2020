@@ -96,4 +96,10 @@ public class MovieBaseDaoImpl implements MovieBaseDao {
 		return responses.setMsg2(mongoTemplate.find(query,MovieBase.class),li.size());
 	}
 	
+	@Override
+	public List<MovieBase> getAllMovies() {
+		return  mongoTemplate.findAll(MovieBase.class);
+	}
+
+	
 }
